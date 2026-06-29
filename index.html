@@ -1,0 +1,1221 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Mian Rent A Car (CarMian) Lahore - premium car rental with expert drivers across Lahore and Pakistan.">
+  <title>Mian Rent A Car | CarMian® Lahore</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --black: #111111;
+      --ink: #1b1b1b;
+      --muted: #666666;
+      --soft: #f6f6f6;
+      --line: #e7e7e7;
+      --white: #ffffff;
+      --green: #25D366;
+      --green-dark: #18a84d;
+      --gold: #F5C000;
+      --shadow: 0 18px 45px rgba(0,0,0,.12);
+      --radius: 8px;
+      --header-h: 78px;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      padding-top: var(--header-h);
+      color: var(--ink);
+      background: var(--white);
+      font-family: "Poppins", Arial, sans-serif;
+      line-height: 1.55;
+    }
+    body.menu-open, body.modal-open { overflow: hidden; }
+    a { color: inherit; text-decoration: none; }
+    button, input, select, textarea { font: inherit; }
+    button { cursor: pointer; border: 0; }
+    img { display: block; max-width: 100%; }
+    section { scroll-margin-top: calc(var(--header-h) + 18px); }
+    .container { width: min(1180px, calc(100% - 32px)); margin: 0 auto; }
+    .section-pad { padding: 88px 0; }
+    .eyebrow { color: var(--green-dark); font-weight: 800; text-transform: uppercase; font-size: .78rem; letter-spacing: .08em; }
+    .section-title { margin: 8px 0 10px; font-size: clamp(2rem, 4vw, 3rem); line-height: 1.1; color: var(--black); }
+    .section-sub { margin: 0 auto 34px; color: var(--muted); max-width: 720px; }
+    .center { text-align: center; }
+    .icon { width: 1.1em; height: 1.1em; display: inline-block; vertical-align: -0.18em; }
+
+    .site-header {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 1000;
+      height: var(--header-h);
+      color: var(--white);
+      background: rgba(17,17,17,.72);
+      backdrop-filter: blur(12px);
+      transition: background .25s ease, box-shadow .25s ease, color .25s ease;
+    }
+    .site-header.scrolled {
+      color: var(--black);
+      background: rgba(255,255,255,.96);
+      box-shadow: 0 8px 26px rgba(0,0,0,.1);
+    }
+    .header-inner {
+      height: var(--header-h);
+      display: grid;
+      grid-template-columns: auto 1fr auto;
+      align-items: center;
+      gap: 24px;
+    }
+    .brand {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      font-weight: 900;
+      font-size: 1.16rem;
+      white-space: nowrap;
+    }
+    .brand-mark {
+      width: 42px; height: 42px;
+      display: grid; place-items: center;
+      border-radius: 50%;
+      color: var(--black);
+      background: var(--gold);
+      box-shadow: 0 8px 22px rgba(245,192,0,.25);
+    }
+    .nav-links {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 32px;
+      font-weight: 600;
+      font-size: .95rem;
+    }
+    .nav-link { position: relative; padding: 8px 0; }
+    .nav-link::after {
+      content: "";
+      position: absolute;
+      left: 0; right: 0; bottom: 0;
+      height: 3px;
+      transform: scaleX(0);
+      transform-origin: center;
+      background: var(--gold);
+      transition: transform .22s ease;
+    }
+    .nav-link:hover::after, .nav-link.active::after { transform: scaleX(1); }
+    .wa-btn, .primary-btn, .outline-btn, .gold-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 9px;
+      min-height: 46px;
+      padding: 0 19px;
+      border-radius: 999px;
+      font-weight: 800;
+      transition: transform .2s ease, box-shadow .2s ease, background .2s ease, color .2s ease;
+    }
+    .wa-btn { background: var(--green); color: var(--white); box-shadow: 0 10px 22px rgba(37,211,102,.28); }
+    .wa-btn:hover, .primary-btn:hover { transform: translateY(-2px); box-shadow: 0 16px 30px rgba(37,211,102,.35); }
+    .gold-btn { color: var(--black); background: var(--gold); box-shadow: 0 12px 26px rgba(245,192,0,.28); }
+    .gold-btn:hover { background: var(--white); transform: translateY(-2px); }
+    .outline-btn { color: var(--white); border: 2px solid rgba(255,255,255,.88); background: transparent; }
+    .outline-btn:hover { background: var(--white); color: var(--black); }
+    .menu-toggle {
+      display: none;
+      width: 46px; height: 46px;
+      border-radius: 50%;
+      color: inherit;
+      background: rgba(255,255,255,.12);
+      border: 1px solid rgba(255,255,255,.18);
+    }
+    .site-header.scrolled .menu-toggle { background: var(--soft); border-color: var(--line); }
+
+    .mobile-menu {
+      position: fixed;
+      inset: 0;
+      z-index: 1200;
+      display: none;
+      place-items: center;
+      padding: 32px;
+      background: rgba(17,17,17,.97);
+      color: var(--white);
+    }
+    .mobile-menu.open { display: grid; }
+    .mobile-close { position: absolute; top: 22px; right: 22px; width: 48px; height: 48px; border-radius: 50%; background: var(--gold); color: var(--black); font-size: 1.4rem; }
+    .mobile-menu nav { display: grid; gap: 24px; text-align: center; font-size: clamp(1.5rem, 8vw, 3rem); font-weight: 900; }
+    .mobile-menu .wa-btn { margin-top: 10px; font-size: 1rem; }
+
+    .hero {
+      min-height: calc(100vh - var(--header-h));
+      margin-top: calc(-1 * var(--header-h));
+      padding-top: var(--header-h);
+      position: relative;
+      display: grid;
+      align-items: center;
+      color: var(--white);
+      overflow: hidden;
+      background: linear-gradient(120deg, rgba(17,17,17,.92), rgba(26,26,46,.72)), var(--hero-bg), linear-gradient(135deg, #111, #1a1a2e);
+      background-size: cover;
+      background-position: center;
+    }
+    .hero::after {
+      content: "";
+      position: absolute;
+      inset: auto 0 0 0;
+      height: 42%;
+      background: linear-gradient(transparent, rgba(0,0,0,.55));
+      pointer-events: none;
+    }
+    .hero-content { position: relative; z-index: 1; max-width: 860px; padding: 110px 0 96px; }
+    .hero h1 { margin: 0; font-size: clamp(3.4rem, 8vw, 6.9rem); line-height: .95; letter-spacing: 0; font-weight: 900; }
+    .hero p { margin: 24px 0 32px; max-width: 760px; font-size: clamp(1.02rem, 2.1vw, 1.34rem); color: rgba(255,255,255,.88); }
+    .hero-actions { display: flex; gap: 14px; flex-wrap: wrap; }
+    .scroll-cue {
+      position: absolute; z-index: 2; left: 50%; bottom: 24px;
+      width: 34px; height: 54px;
+      margin-left: -17px;
+      border: 2px solid rgba(255,255,255,.72);
+      border-radius: 999px;
+    }
+    .scroll-cue::before {
+      content: "";
+      position: absolute; top: 9px; left: 50%;
+      width: 6px; height: 6px; margin-left: -3px;
+      border-radius: 50%; background: var(--gold);
+      animation: wheel 1.45s infinite ease-in-out;
+    }
+    @keyframes wheel { 0% { transform: translateY(0); opacity: 1; } 100% { transform: translateY(22px); opacity: 0; } }
+
+    .filter-bar {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin: 26px 0 34px;
+    }
+    .filter-tab {
+      min-width: 90px;
+      height: 42px;
+      border-radius: 999px;
+      border: 1px solid var(--line);
+      background: var(--white);
+      color: var(--black);
+      font-weight: 800;
+    }
+    .filter-tab.active { background: var(--black); color: var(--white); border-color: var(--black); }
+    .vehicle-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 24px;
+    }
+    .vehicle-card {
+      min-height: 492px;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: var(--white);
+      box-shadow: 0 10px 28px rgba(0,0,0,.08);
+      transition: transform .2s ease, box-shadow .2s ease;
+    }
+    .vehicle-card:hover { transform: translateY(-5px); box-shadow: var(--shadow); }
+    .vehicle-image {
+      height: 285px;
+      display: grid;
+      place-items: center;
+      padding: 20px;
+      background: #fff;
+      border-bottom: 1px solid #f0f0f0;
+    }
+    .vehicle-image img { width: 100%; height: 100%; object-fit: contain; }
+    .image-fallback {
+      width: 100%; height: 100%;
+      display: none;
+      place-items: center;
+      border-radius: var(--radius);
+      color: #777;
+      background: linear-gradient(135deg, #eeeeee, #fafafa);
+      font-size: 4.3rem;
+    }
+    .vehicle-body { padding: 20px; display: grid; gap: 12px; flex: 1; }
+    .vehicle-head { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; }
+    .vehicle-name { margin: 0; font-size: 1.25rem; line-height: 1.25; color: var(--black); }
+    .pill { display: inline-flex; align-items: center; height: 28px; padding: 0 10px; border-radius: 999px; background: #f3f3f3; color: #444; font-size: .78rem; font-weight: 800; }
+    .prices { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+    .price-box { padding: 10px; border-radius: var(--radius); background: #fafafa; border: 1px solid #ededed; }
+    .price-label { display: block; color: var(--muted); font-size: .72rem; font-weight: 700; text-transform: uppercase; }
+    .price-value { color: var(--black); font-weight: 900; }
+    .rating { color: var(--gold); letter-spacing: 1px; font-size: 1.02rem; }
+    .book-btn, .primary-btn {
+      min-height: 46px;
+      border-radius: 999px;
+      background: var(--green);
+      color: var(--white);
+      font-weight: 900;
+    }
+    .book-btn { width: 100%; }
+
+    .pricing-wrap, .admin-card, .contact-form, .info-panel {
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: var(--white);
+      box-shadow: 0 12px 34px rgba(0,0,0,.07);
+      overflow: hidden;
+    }
+    .rate-table { width: 100%; border-collapse: collapse; }
+    .rate-table th, .rate-table td { padding: 16px 18px; text-align: left; border-bottom: 1px solid var(--line); }
+    .rate-table th { background: var(--black); color: var(--white); font-weight: 800; }
+    .rate-table tbody tr:nth-child(even) { background: #fafafa; }
+    .rate-note { padding: 16px 18px; color: var(--muted); font-size: .92rem; }
+
+    .why { background: var(--soft); }
+    .why-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 22px; }
+    .why-card { padding: 28px; border-radius: var(--radius); background: var(--white); border: 1px solid var(--line); box-shadow: 0 10px 26px rgba(0,0,0,.06); }
+    .why-card .big { font-size: 2.1rem; }
+    .why-card h3 { margin: 12px 0 8px; font-size: 1.2rem; }
+    .why-card p { margin: 0; color: var(--muted); }
+    .counter-row {
+      margin-top: 34px;
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 16px;
+    }
+    .counter-box { padding: 22px 16px; text-align: center; border-radius: var(--radius); background: var(--black); color: var(--white); }
+    .counter-box strong { display: block; font-size: clamp(1.8rem, 3vw, 2.7rem); line-height: 1; color: var(--gold); }
+    .counter-box span { font-weight: 700; color: rgba(255,255,255,.82); }
+
+    .reviews-row {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(260px, 1fr));
+      gap: 18px;
+      overflow-x: auto;
+      padding-bottom: 8px;
+      scroll-snap-type: x mandatory;
+    }
+    .review-card {
+      scroll-snap-align: start;
+      padding: 24px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: var(--white);
+      box-shadow: 0 10px 28px rgba(0,0,0,.06);
+    }
+    .review-card p { color: #444; margin: 12px 0 22px; }
+    .review-author { display: flex; align-items: center; gap: 12px; }
+    .avatar { width: 42px; height: 42px; border-radius: 50%; display: grid; place-items: center; background: var(--black); color: var(--gold); font-weight: 900; }
+    .review-author strong { display: block; }
+    .review-author span { color: var(--muted); font-size: .9rem; }
+
+    .contact { background: var(--soft); }
+    .contact-grid { display: grid; grid-template-columns: .95fr 1.05fr; gap: 26px; align-items: start; }
+    .info-panel, .contact-form { padding: 26px; }
+    .contact-list { display: grid; gap: 14px; margin: 20px 0; }
+    .contact-line { display: flex; gap: 12px; align-items: flex-start; color: #333; }
+    .contact-line b { color: var(--black); }
+    .social-row { display: flex; gap: 10px; flex-wrap: wrap; margin: 18px 0; }
+    .social-row a { width: 42px; height: 42px; display: grid; place-items: center; border-radius: 50%; background: var(--black); color: var(--white); font-weight: 900; }
+    .map-frame { width: 100%; height: 260px; border: 0; border-radius: var(--radius); filter: grayscale(.15); }
+    .form-grid { display: grid; gap: 14px; }
+    .field label { display: block; margin-bottom: 7px; color: var(--black); font-size: .9rem; font-weight: 800; }
+    .field input, .field select, .field textarea {
+      width: 100%;
+      min-height: 48px;
+      padding: 12px 14px;
+      border: 1px solid #d8d8d8;
+      border-radius: var(--radius);
+      background: var(--white);
+      outline: none;
+      transition: border .2s ease, box-shadow .2s ease;
+    }
+    .field textarea { min-height: 120px; resize: vertical; }
+    .field input:focus, .field select:focus, .field textarea:focus { border-color: var(--gold); box-shadow: 0 0 0 4px rgba(245,192,0,.15); }
+    .dark-submit { min-height: 50px; border-radius: 999px; background: var(--black); color: var(--white); font-weight: 900; }
+    .dark-submit:hover { background: var(--gold); color: var(--black); }
+
+    .footer { background: var(--black); color: var(--white); padding: 58px 0 0; }
+    .footer-grid { display: grid; grid-template-columns: 1.25fr .75fr 1fr; gap: 36px; }
+    .footer h3, .footer h4 { margin: 0 0 14px; }
+    .footer p, .footer a { color: rgba(255,255,255,.72); }
+    .footer-links { display: grid; gap: 9px; }
+    .footer-bottom { margin-top: 36px; padding: 18px 0; border-top: 1px solid rgba(255,255,255,.12); color: rgba(255,255,255,.68); text-align: center; }
+    .back-top {
+      position: fixed; right: 22px; bottom: 94px; z-index: 900;
+      width: 44px; height: 44px; border-radius: 50%;
+      display: none; place-items: center;
+      background: var(--gold); color: var(--black); font-size: 1.1rem; font-weight: 900;
+      box-shadow: 0 12px 28px rgba(0,0,0,.2);
+    }
+    .back-top.show { display: grid; }
+
+    .float-wa {
+      position: fixed; right: 22px; bottom: 24px; z-index: 1300;
+      width: 62px; height: 62px; border-radius: 50%;
+      display: grid; place-items: center;
+      background: var(--green); color: var(--white);
+      box-shadow: 0 14px 34px rgba(37,211,102,.42);
+    }
+    .float-wa svg { width: 30px; height: 30px; }
+    .float-tooltip {
+      position: absolute; right: 72px; top: 50%;
+      width: max-content; max-width: 210px;
+      transform: translateY(-50%) translateX(8px);
+      padding: 9px 12px;
+      border-radius: 999px;
+      background: var(--black); color: var(--white);
+      font-size: .82rem; font-weight: 700;
+      opacity: 0; pointer-events: none;
+      transition: opacity .2s ease, transform .2s ease;
+    }
+    .float-wa:hover .float-tooltip { opacity: 1; transform: translateY(-50%) translateX(0); }
+    .popup-backdrop, .modal-backdrop {
+      position: fixed; inset: 0; z-index: 1250;
+      display: none;
+      background: rgba(0,0,0,.55);
+    }
+    .popup-backdrop.open, .modal-backdrop.open { display: block; }
+    .wa-popup {
+      position: fixed; right: 22px; bottom: 100px; z-index: 1400;
+      width: min(390px, calc(100vw - 32px));
+      padding: 20px;
+      border-radius: var(--radius);
+      background: var(--white);
+      box-shadow: 0 24px 60px rgba(0,0,0,.28);
+      transform: translateY(24px);
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity .24s ease, transform .24s ease;
+    }
+    .wa-popup.open { transform: translateY(0); opacity: 1; pointer-events: auto; }
+    .popup-head, .modal-head { display: flex; justify-content: space-between; align-items: center; gap: 12px; margin-bottom: 16px; }
+    .popup-head h3, .modal-head h3 { margin: 0; color: var(--black); }
+    .x-btn { width: 36px; height: 36px; border-radius: 50%; background: #f1f1f1; color: var(--black); font-size: 1.1rem; }
+    .phone-row { padding: 13px; border: 1px solid var(--line); border-radius: var(--radius); margin-bottom: 10px; }
+    .phone-main { display: flex; align-items: center; gap: 10px; font-weight: 900; margin-bottom: 10px; }
+    .phone-actions { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+    .mini-btn { min-height: 39px; border-radius: 999px; display: inline-flex; align-items: center; justify-content: center; gap: 6px; font-weight: 900; }
+    .mini-call { background: var(--black); color: var(--white); }
+    .mini-wa { background: var(--green); color: var(--white); }
+
+    .booking-modal {
+      position: fixed; z-index: 1400; inset: 50% auto auto 50%;
+      width: min(620px, calc(100vw - 32px));
+      max-height: calc(100vh - 40px);
+      overflow: auto;
+      padding: 22px;
+      border-radius: var(--radius);
+      background: var(--white);
+      box-shadow: 0 24px 70px rgba(0,0,0,.32);
+      transform: translate(-50%, -46%) scale(.98);
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity .2s ease, transform .2s ease;
+    }
+    .booking-modal.open { transform: translate(-50%, -50%) scale(1); opacity: 1; pointer-events: auto; }
+    .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+    .estimate { padding: 14px; border-radius: var(--radius); background: #fff9dc; border: 1px solid rgba(245,192,0,.38); font-weight: 900; }
+    .modal-actions { display: flex; justify-content: flex-end; gap: 10px; flex-wrap: wrap; margin-top: 15px; }
+    .cancel-btn { min-height: 44px; padding: 0 18px; border-radius: 999px; background: #efefef; font-weight: 900; }
+
+    .admin-overlay {
+      position: fixed; inset: 0; z-index: 2000;
+      display: none;
+      background: #f4f4f4;
+      color: var(--ink);
+      overflow: auto;
+    }
+    .admin-overlay.open { display: block; }
+    .admin-login {
+      min-height: 100vh;
+      display: none;
+      place-items: center;
+      padding: 24px;
+      background: radial-gradient(circle at top right, rgba(245,192,0,.18), transparent 30%), #111;
+    }
+    .admin-login.show { display: grid; }
+    .admin-login-card {
+      width: min(430px, 100%);
+      display: grid;
+      gap: 14px;
+      padding: 28px;
+      border-radius: var(--radius);
+      background: var(--white);
+      box-shadow: 0 24px 70px rgba(0,0,0,.35);
+    }
+    .admin-login-card h2 { margin: 0; }
+    .admin-login-card p { margin: 0; color: var(--muted); }
+    .admin-shell { min-height: 100vh; display: grid; grid-template-columns: 270px 1fr; }
+    .admin-shell.locked { display: none; }
+    .admin-side { background: var(--black); color: var(--white); padding: 24px 18px; position: sticky; top: 0; height: 100vh; }
+    .admin-side h2 { margin: 0 0 24px; font-size: 1.25rem; }
+    .admin-tabs { display: grid; gap: 8px; }
+    .admin-tab { min-height: 46px; border-radius: var(--radius); background: transparent; color: rgba(255,255,255,.78); text-align: left; padding: 0 14px; font-weight: 800; border-left: 4px solid transparent; }
+    .admin-tab.active { background: rgba(255,255,255,.08); color: var(--white); border-left-color: var(--gold); }
+    .admin-main { padding: 26px; }
+    .admin-top { display: flex; justify-content: space-between; align-items: center; gap: 14px; margin-bottom: 20px; }
+    .admin-close { min-height: 42px; padding: 0 16px; border-radius: 999px; background: var(--black); color: var(--white); font-weight: 900; }
+    .admin-card { padding: 20px; margin-bottom: 18px; }
+    .admin-actions { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 14px; }
+    .admin-table-wrap { overflow-x: auto; }
+    .admin-table { width: 100%; border-collapse: collapse; min-width: 740px; }
+    .admin-table th, .admin-table td { padding: 12px 10px; text-align: left; border-bottom: 1px solid var(--line); vertical-align: middle; }
+    .admin-table th { color: var(--black); background: #f8f8f8; font-size: .85rem; }
+    .admin-table tr:nth-child(even) td { background: #fcfcfc; }
+    .small-btn { min-height: 34px; padding: 0 11px; border-radius: 999px; font-weight: 800; background: #ececec; color: var(--black); margin: 2px; }
+    .small-btn.gold { background: var(--gold); }
+    .small-btn.danger { background: #ffe1e1; color: #9c1010; }
+    .small-btn.green { background: var(--green); color: var(--white); }
+    .admin-form-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; }
+    .admin-form-grid .full { grid-column: 1 / -1; }
+    .admin-section { display: none; }
+    .admin-section.active { display: block; }
+    .toast {
+      position: fixed; right: 24px; top: 24px; z-index: 2200;
+      padding: 13px 16px;
+      border-radius: var(--radius);
+      color: var(--black);
+      background: var(--gold);
+      box-shadow: var(--shadow);
+      font-weight: 900;
+      transform: translateY(-16px);
+      opacity: 0;
+      pointer-events: none;
+      transition: .22s ease;
+    }
+    .toast.show { transform: translateY(0); opacity: 1; }
+    [contenteditable="true"] { outline: 2px solid transparent; border-radius: 4px; }
+    [contenteditable="true"]:focus { outline-color: rgba(245,192,0,.55); background: #fff9dc; }
+
+    @media (max-width: 980px) {
+      .nav-links, .header-inner > .wa-btn { display: none; }
+      .menu-toggle { display: grid; place-items: center; justify-self: end; }
+      .header-inner { grid-template-columns: auto 1fr auto; }
+      .vehicle-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .why-grid, .contact-grid, .footer-grid { grid-template-columns: 1fr; }
+      .counter-row { grid-template-columns: repeat(2, 1fr); }
+      .reviews-row { grid-template-columns: repeat(4, minmax(280px, 360px)); }
+      .admin-shell { grid-template-columns: 1fr; }
+      .admin-side { position: static; height: auto; }
+      .admin-tabs { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    }
+    @media (max-width: 640px) {
+      :root { --header-h: 70px; }
+      .container { width: min(100% - 24px, 1180px); }
+      .section-pad { padding: 64px 0; }
+      .brand { font-size: .96rem; }
+      .brand-mark { width: 38px; height: 38px; }
+      .hero-content { padding: 90px 0 86px; }
+      .hero h1 { font-size: clamp(3rem, 17vw, 4.3rem); }
+      .hero-actions a, .hero-actions button { width: 100%; }
+      .vehicle-grid { grid-template-columns: 1fr; }
+      .vehicle-card { min-height: 470px; }
+      .vehicle-image { height: 270px; }
+      .prices, .two-col, .admin-form-grid, .counter-row { grid-template-columns: 1fr; }
+      .rate-table th, .rate-table td { padding: 12px 10px; font-size: .9rem; }
+      .phone-actions { grid-template-columns: 1fr; }
+      .wa-popup { right: 16px; bottom: 96px; }
+      .float-wa { right: 16px; bottom: 18px; }
+      .float-tooltip { display: none; }
+      .back-top { right: 16px; bottom: 88px; }
+      .admin-main { padding: 18px 12px; }
+      .admin-tabs { grid-template-columns: 1fr; }
+      .admin-top { align-items: flex-start; flex-direction: column; }
+    }
+  </style>
+</head>
+<body>
+  <header class="site-header" id="siteHeader">
+    <div class="container header-inner">
+      <a class="brand" href="#home" aria-label="Mian Rent A Car home">
+        <span class="brand-mark" data-logo-mark aria-hidden="true">
+          <svg class="icon" viewBox="0 0 24 24" fill="none"><path d="M5 16h14M6.8 16l1.2-5.2A3 3 0 0 1 10.9 8h2.2A3 3 0 0 1 16 10.8l1.2 5.2M7 16v2M17 16v2M8 18h.1M16 18h.1" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+        </span>
+        <span data-logo-text>Mian Rent A Car</span>
+      </a>
+      <nav class="nav-links" aria-label="Main navigation">
+        <a class="nav-link active" href="#home">Home</a>
+        <a class="nav-link" href="#vehicles">Vehicles</a>
+        <a class="nav-link" href="#pricing">Pricing</a>
+        <a class="nav-link" href="#about">About</a>
+        <a class="nav-link" href="#contact">Contact</a>
+      </nav>
+      <a class="wa-btn" id="headerWa" href="#" target="_blank" rel="noopener" aria-label="Open WhatsApp">
+        <span>💬</span><span>WhatsApp</span>
+      </a>
+      <button class="menu-toggle" id="menuToggle" aria-label="Open menu">☰</button>
+    </div>
+  </header>
+
+  <div class="mobile-menu" id="mobileMenu" aria-hidden="true">
+    <button class="mobile-close" id="mobileClose" aria-label="Close menu">×</button>
+    <nav>
+      <a href="#home">Home</a>
+      <a href="#vehicles">Vehicles</a>
+      <a href="#pricing">Pricing</a>
+      <a href="#about">About</a>
+      <a href="#contact">Contact</a>
+      <a class="wa-btn" id="mobileWa" href="#" target="_blank" rel="noopener">💬 WhatsApp</a>
+    </nav>
+  </div>
+
+  <main id="publicSite">
+    <section class="hero" id="home">
+      <div class="container hero-content">
+        <span class="eyebrow">CarMian® Lahore</span>
+        <h1 id="heroHeading">Your Ride, Your Way</h1>
+        <p id="heroSubheading">Premium car rental across Lahore and all major cities of Pakistan. Expert drivers. Reliable vehicles. Affordable prices.</p>
+        <div class="hero-actions">
+          <a class="gold-btn" id="heroBookBtn" href="#vehicles">Book Now</a>
+          <button class="outline-btn" id="heroCallBtn">Call Us</button>
+        </div>
+      </div>
+      <a class="scroll-cue" href="#vehicles" aria-label="Scroll to vehicles"></a>
+    </section>
+
+    <section class="section-pad" id="vehicles">
+      <div class="container">
+        <div class="center">
+          <span class="eyebrow">Our Fleet</span>
+          <h2 class="section-title">Vehicles for Every Journey</h2>
+          <p class="section-sub">Choose from clean sedans, family SUVs, luxury vehicles, vans, and group travel options with flexible packages.</p>
+        </div>
+        <div class="filter-bar" id="filterBar" aria-label="Vehicle category filters"></div>
+        <div class="vehicle-grid" id="vehicleGrid"></div>
+      </div>
+    </section>
+
+    <section class="section-pad" id="pricing">
+      <div class="container">
+        <div class="center">
+          <span class="eyebrow">Travel Rates</span>
+          <h2 class="section-title">Intercity Travel Rates</h2>
+          <p class="section-sub">One-way rates from Lahore</p>
+        </div>
+        <div class="pricing-wrap">
+          <table class="rate-table">
+            <thead><tr><th>Car Type</th><th>Destination</th><th>One-Way Rate</th></tr></thead>
+            <tbody id="pricingRows"></tbody>
+          </table>
+          <div class="rate-note">*Timing: 24 hours, within the same date</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section-pad why" id="about">
+      <div class="container">
+        <div class="center">
+          <span class="eyebrow">Why Choose Us</span>
+          <h2 class="section-title" id="aboutTitle">Reliable Rental Service in Lahore</h2>
+          <p class="section-sub" id="aboutDescription">Professional drivers, clear pricing, and vehicles prepared for local and intercity travel.</p>
+          <div id="aboutStatements"></div>
+        </div>
+        <div class="why-grid" id="whyGrid">
+          <article class="why-card"><div class="big">🕐</div><h3>Reliability in Timing</h3><p>We guarantee punctuality. Our fleet is always ready to dispatch the right vehicle on time, every time.</p></article>
+          <article class="why-card"><div class="big">🚗</div><h3>Experienced Drivers</h3><p>Our professional drivers know every route in Lahore and beyond, ensuring a safe and smooth journey.</p></article>
+          <article class="why-card"><div class="big">💰</div><h3>Value for Money</h3><p>Competitive rates, flexible packages, and no hidden charges. Best service at the best price, guaranteed.</p></article>
+        </div>
+        <div class="counter-row" id="counterRow">
+          <div class="counter-box"><strong data-count="500">0</strong><span>Happy Customers</span></div>
+          <div class="counter-box"><strong data-count="15">0</strong><span>Vehicles Available</span></div>
+          <div class="counter-box"><strong data-count="5">0</strong><span>Years Experience</span></div>
+          <div class="counter-box"><strong data-count="24">0</strong><span>24/7 Support</span></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section-pad" id="reviews">
+      <div class="container">
+        <div class="center">
+          <span class="eyebrow">Customer Reviews</span>
+          <h2 class="section-title">What Our Customers Say</h2>
+          <p class="section-sub">Real feedback from families, business travelers, and event customers.</p>
+        </div>
+        <div class="reviews-row" id="reviewsRow"></div>
+      </div>
+    </section>
+
+    <section class="section-pad contact" id="contact">
+      <div class="container">
+        <div class="center">
+          <span class="eyebrow">Contact</span>
+          <h2 class="section-title">Book Your Car Today</h2>
+          <p class="section-sub">Send your trip details and our team will confirm availability and pricing.</p>
+        </div>
+        <div class="contact-grid">
+          <div class="info-panel">
+            <h3>Mian Rent A Car</h3>
+            <div class="contact-list" id="contactInfo"></div>
+            <div class="social-row" id="socialLinks"></div>
+            <iframe class="map-frame" id="mapFrame" title="Wapda Town Lahore map" loading="lazy" src="https://www.google.com/maps?q=Wapda%20Town%20G5%20Block%20Near%20Khalid%20Bridge%20Lahore&output=embed"></iframe>
+          </div>
+          <form class="contact-form form-grid" id="contactForm">
+            <div class="field"><label for="cName">Name</label><input id="cName" required autocomplete="name"></div>
+            <div class="field"><label for="cPhone">Phone</label><input id="cPhone" required autocomplete="tel"></div>
+            <div class="field"><label for="cVehicle">Vehicle Interest</label><select id="cVehicle" required></select></div>
+            <div class="field"><label for="cDate">Date</label><input id="cDate" type="date" required></div>
+            <div class="field"><label for="cMessage">Message</label><textarea id="cMessage" required></textarea></div>
+            <button class="dark-submit" type="submit">Send Message</button>
+          </form>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div><h3 id="footerBrandName">Mian Rent A Car</h3><p id="footerBrandInfo">CarMian® provides premium car rental services with reliable vehicles, expert drivers, and flexible packages across Lahore and Pakistan.</p><div class="social-row" id="footerSocial"></div></div>
+        <div><h4>Quick Links</h4><div class="footer-links"><a href="#home">Home</a><a href="#vehicles">Vehicles</a><a href="#pricing">Pricing</a><a href="#about">About</a><a href="#contact">Contact</a></div></div>
+        <div><h4>Contact</h4><div id="footerContact"></div></div>
+      </div>
+      <div class="footer-bottom">© 2025 Mian Rent A Car (CarMian®). All Rights Reserved.</div>
+    </div>
+  </footer>
+
+  <button class="back-top" id="backTop" aria-label="Back to top">↑</button>
+  <div class="popup-backdrop" id="waBackdrop"></div>
+  <button class="float-wa" id="floatWa" aria-label="Open contact popup">
+    <svg viewBox="0 0 32 32" fill="currentColor" aria-hidden="true"><path d="M16.04 3.2A12.7 12.7 0 0 0 5.08 22.34L3.2 29.12l6.95-1.82A12.7 12.7 0 1 0 16.04 3.2Zm0 23.24a10.56 10.56 0 0 1-5.38-1.48l-.39-.23-4.12 1.08 1.1-4.01-.26-.41a10.54 10.54 0 1 1 9.05 5.05Zm5.78-7.9c-.32-.16-1.88-.93-2.17-1.03-.29-.11-.5-.16-.72.16-.21.32-.82 1.03-1.01 1.24-.19.21-.37.24-.69.08-.32-.16-1.34-.49-2.55-1.57-.94-.84-1.58-1.88-1.77-2.2-.18-.32-.02-.49.14-.65.14-.14.32-.37.48-.56.16-.19.21-.32.32-.53.11-.21.05-.4-.03-.56-.08-.16-.72-1.74-.98-2.38-.26-.62-.52-.53-.72-.54h-.61c-.21 0-.56.08-.85.4-.29.32-1.11 1.09-1.11 2.65 0 1.56 1.14 3.07 1.3 3.28.16.21 2.25 3.43 5.45 4.81.76.33 1.36.53 1.82.68.76.24 1.46.21 2.01.13.61-.09 1.88-.77 2.14-1.51.27-.74.27-1.38.19-1.51-.08-.13-.29-.21-.61-.37Z"/></svg>
+    <span class="float-tooltip">Need Help? Chat with us</span>
+  </button>
+  <div class="wa-popup" id="waPopup">
+    <div class="popup-head"><h3>Contact Mian Rent A Car</h3><button class="x-btn" id="waClose" aria-label="Close">×</button></div>
+    <div id="waRows"></div>
+  </div>
+
+  <div class="modal-backdrop" id="modalBackdrop"></div>
+  <div class="booking-modal" id="bookingModal" role="dialog" aria-modal="true" aria-label="Booking form">
+    <div class="modal-head"><h3>Book Vehicle</h3><button class="x-btn" id="bookingClose" aria-label="Close">×</button></div>
+    <form id="bookingForm" class="form-grid">
+      <div class="field"><label for="bVehicle">Vehicle</label><input id="bVehicle" readonly></div>
+      <div class="two-col">
+        <div class="field"><label for="bName">Full Name</label><input id="bName" required autocomplete="name"></div>
+        <div class="field"><label for="bPhone">Phone Number</label><input id="bPhone" required autocomplete="tel"></div>
+      </div>
+      <div class="two-col">
+        <div class="field"><label for="bPickup">Pickup Date</label><input id="bPickup" type="date" required></div>
+        <div class="field"><label for="bReturn">Return Date</label><input id="bReturn" type="date" required></div>
+      </div>
+      <div class="field"><label for="bLocation">Pickup Location</label><input id="bLocation" required></div>
+      <div class="field"><label for="bMessage">Message</label><textarea id="bMessage"></textarea></div>
+      <div class="estimate" id="bookingEstimate">Total Estimate: Rs. 0</div>
+      <div class="modal-actions"><button class="cancel-btn" type="button" id="bookingCancel">Cancel</button><button class="primary-btn" type="submit">Send via WhatsApp</button></div>
+    </form>
+  </div>
+
+  <div class="admin-overlay" id="adminOverlay">
+    <div class="admin-login" id="adminLogin">
+      <form class="admin-login-card" id="adminLoginForm">
+        <span class="eyebrow">Secure Admin</span>
+        <h2>CarMian Admin Login</h2>
+        <p>Enter your admin credentials to manage website content.</p>
+        <div class="field"><label for="adminUser">Username</label><input id="adminUser" autocomplete="username" required></div>
+        <div class="field"><label for="adminPass">Password</label><input id="adminPass" type="password" autocomplete="current-password" required></div>
+        <button class="dark-submit" type="submit">Login</button>
+        <button class="small-btn" type="button" id="adminLoginClose">Back to Public Site</button>
+      </form>
+    </div>
+    <div class="admin-shell" id="adminShell">
+      <aside class="admin-side">
+        <h2>CarMian® Admin</h2>
+        <div class="admin-tabs">
+          <button class="admin-tab active" data-admin-tab="dashboardAdmin">Dashboard</button>
+          <button class="admin-tab" data-admin-tab="logoAdmin">Logo</button>
+          <button class="admin-tab" data-admin-tab="aboutAdmin">About Page</button>
+          <button class="admin-tab" data-admin-tab="vehiclesAdmin">Vehicles</button>
+          <button class="admin-tab" data-admin-tab="pricingAdmin">Pricing Table</button>
+          <button class="admin-tab" data-admin-tab="reviewsAdmin">Reviews</button>
+          <button class="admin-tab" data-admin-tab="contactAdmin">Contact Info</button>
+          <button class="admin-tab" data-admin-tab="heroAdmin">Hero Section</button>
+          <button class="admin-tab" id="adminLogout">Logout</button>
+        </div>
+      </aside>
+      <div class="admin-main">
+        <div class="admin-top"><div><span class="eyebrow">Local Admin</span><h1 style="margin:4px 0 0">Website Manager</h1></div><button class="admin-close" id="adminClose">Close to Public Site</button></div>
+        <section class="admin-section active" id="dashboardAdmin"><div class="admin-card"><h2>Dashboard</h2><p>Manage hero content, logo, contact details, vehicles, pricing, about content, and customer reviews. All changes save in this browser and update the public website immediately.</p><div class="counter-row" id="adminStats"></div></div></section>
+        <section class="admin-section" id="logoAdmin"><div class="admin-card"><form id="adminLogoForm" class="admin-form-grid"></form></div></section>
+        <section class="admin-section" id="aboutAdmin"><div class="admin-card"><form id="adminAboutForm" class="admin-form-grid"></form></div></section>
+        <section class="admin-section" id="vehiclesAdmin"><div class="admin-card"><div class="admin-actions"><button class="small-btn gold" id="addVehicle">Add New Vehicle</button><button class="small-btn" id="resetData">Reset Defaults</button></div><div id="vehicleFormMount"></div><div class="admin-table-wrap"><table class="admin-table"><thead><tr><th>Name</th><th>Category</th><th>Price Lahore</th><th>Price Outside</th><th>Status</th><th>Actions</th></tr></thead><tbody id="adminVehicleRows"></tbody></table></div></div></section>
+        <section class="admin-section" id="pricingAdmin"><div class="admin-card"><div class="admin-actions"><button class="small-btn gold" id="addRate">Add Row</button></div><div class="admin-table-wrap"><table class="admin-table"><thead><tr><th>Car Type</th><th>Destination</th><th>Price</th><th>Status</th><th>Actions</th></tr></thead><tbody id="adminPricingRows"></tbody></table></div></div></section>
+        <section class="admin-section" id="reviewsAdmin"><div class="admin-card"><div class="admin-actions"><button class="small-btn gold" id="addReview">Add Review</button></div><div id="reviewFormMount"></div><div class="admin-table-wrap"><table class="admin-table"><thead><tr><th>Review</th><th>Name</th><th>City</th><th>Rating</th><th>Status</th><th>Actions</th></tr></thead><tbody id="adminReviewRows"></tbody></table></div></div></section>
+        <section class="admin-section" id="contactAdmin"><div class="admin-card"><form id="adminContactForm" class="admin-form-grid"></form></div></section>
+        <section class="admin-section" id="heroAdmin"><div class="admin-card"><form id="adminHeroForm" class="admin-form-grid"></form></div></section>
+      </div>
+    </div>
+  </div>
+  <div class="toast" id="toast">Saved</div>
+
+  <script>
+    const STORAGE_KEY = "carmian_site_data_v1";
+    const ADMIN_USER = "ADMIN1";
+    const ADMIN_PASS = "ADMIN1";
+    const currency = new Intl.NumberFormat("en-PK");
+    const carSvg = (body, roof) => `data:image/svg+xml;charset=UTF-8,${encodeURIComponent(`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 520"><rect width="900" height="520" fill="white"/><ellipse cx="450" cy="410" rx="330" ry="34" fill="#e8e8e8"/><path d="M160 326c18-78 83-128 166-132h248c78 0 137 49 166 132l61 13c34 7 57 37 57 72v18H42v-18c0-35 24-65 58-72l60-13Z" fill="${body}"/><path d="M314 213h245c46 0 87 29 104 72l13 33H222l18-37c15-31 43-54 74-68Z" fill="${roof}"/><path d="M333 236h92v73H270l15-33c10-23 26-36 48-40Zm121 0h92c29 3 51 20 65 73H454v-73Z" fill="#dff6ff"/><circle cx="230" cy="421" r="54" fill="#111"/><circle cx="230" cy="421" r="24" fill="#f5f5f5"/><circle cx="670" cy="421" r="54" fill="#111"/><circle cx="670" cy="421" r="24" fill="#f5f5f5"/><path d="M95 350h70M735 350h70" stroke="#f5c000" stroke-width="18" stroke-linecap="round"/></svg>`)}`;
+    const defaultData = {
+      hero: {
+        heading: "Your Ride, Your Way",
+        subheading: "Premium car rental across Lahore and all major cities of Pakistan. Expert drivers. Reliable vehicles. Affordable prices.",
+        backgroundImage: "",
+        buttonText: "Book Now",
+        buttonLink: "#vehicles"
+      },
+      logo: {
+        image: "",
+        text: "Mian Rent A Car",
+        brandName: "CarMian"
+      },
+      contact: {
+        phone1: "0304-4008105",
+        phone2: "0301-4708912",
+        phone3: "0303-4188831",
+        whatsapp: "+92 304 4008105",
+        email: "Mianrentacar616@gmail.com",
+        address: "Wapda Town G5 Block, Near Khalid Bridge, Lahore",
+        website: "www.carmian.com",
+        facebook: "#",
+        instagram: "#",
+        tiktok: "#",
+        mapEmbed: "https://www.google.com/maps?q=Wapda%20Town%20G5%20Block%20Near%20Khalid%20Bridge%20Lahore&output=embed"
+      },
+      about: {
+        title: "Reliable Rental Service in Lahore",
+        description: "Professional drivers, clear pricing, and vehicles prepared for local and intercity travel.",
+        mission: "To provide clean, reliable, and affordable rental cars with professional drivers for every journey.",
+        vision: "To become Lahore's most trusted car rental brand for family, business, event, and intercity travel.",
+        cards: [
+          {icon:"🕐", title:"Reliability in Timing", description:"We guarantee punctuality. Our fleet is always ready to dispatch the right vehicle on time, every time."},
+          {icon:"🚗", title:"Experienced Drivers", description:"Our professional drivers know every route in Lahore and beyond, ensuring a safe and smooth journey."},
+          {icon:"💰", title:"Value for Money", description:"Competitive rates, flexible packages, and no hidden charges. Best service at the best price, guaranteed."}
+        ],
+        happyCustomers: 500,
+        availableVehicles: 15,
+        experienceYears: 5,
+        supportText: "24/7 Support"
+      },
+      vehicles: [
+        ["alto","Suzuki Alto","Sedan","Rs.3,000/day","Rs.4,500 outside","General 10 hours","Events 5 hours","20,000-24,000","65,000-80,000",5,carSvg("#e8eaed","#cfd6df")],
+        ["cultus","Suzuki Cultus","Sedan","Rs.3,500/day","Rs.5,000 outside","General 10 hours","Events 5 hours","24,500-28,000","75,000-90,000",5,carSvg("#f7f7f7","#d2dae5")],
+        ["wagonr","Suzuki WagonR","Sedan","Rs.3,000/day","Rs.4,500 outside","General 10 hours","Events 5 hours","24,500-28,000","75,000-90,000",5,carSvg("#dfe8f2","#bbc7d5")],
+        ["swift","Suzuki Swift","Sedan","Rs.3,500/day","Rs.5,000 outside","General 10 hours","Events 5 hours","25,000-30,000","80,000-95,000",5,carSvg("#c51f30","#8d1420")],
+        ["corolla","Toyota Corolla","Sedan","Rs.4,500/day","Rs.6,000 outside","General 10 hours","Events 5 hours","28,000-35,000","90,000-110,000",5,carSvg("#f3f3f3","#cdd5de")],
+        ["yaris","Toyota Yaris","Sedan","Rs.4,500/day","Rs.6,000 outside","General 10 hours","Events 5 hours","28,000-35,000","90,000-110,000",5,carSvg("#2f6e9f","#1d496b")],
+        ["civicx","Honda Civic X","Sedan","Rs.8,000/day","Rs.9,000 outside","General 10 hours","Events 5 hours","45,000-55,000","140,000-160,000",5,carSvg("#111111","#333333")],
+        ["vezel","Honda Vezel","SUV","Rs.9,000/day","Rs.12,000 outside","General 10 hours","Events 5 hours","55,000-65,000","160,000-190,000",5,carSvg("#f5f5f5","#d5dbe3")],
+        ["brv","Honda BRV","SUV","Rs.6,000/day","Rs.7,000 outside","General 10 hours","Events 5 hours","38,000-45,000","115,000-135,000",5,carSvg("#8d9299","#5d636b")],
+        ["fortuner","Toyota Fortuner","SUV","Rs.15,000/day","Rs.18,000 outside","General 10 hours","Events 5 hours","90,000-105,000","270,000-315,000",5,carSvg("#ffffff","#c9d2dc")],
+        ["revo","Toyota Revo","SUV","Rs.14,000/day","Rs.17,000 outside","General 10 hours","Events 5 hours","85,000-100,000","255,000-300,000",5,carSvg("#343434","#1d1d1d")],
+        ["prado","Toyota Land Cruiser Prado","Luxury","Rs.18,000/day","Rs.25,000 outside","General 10 hours","Events 5 hours","110,000-130,000","330,000-390,000",5,carSvg("#ede7d7","#c2b68f")],
+        ["v8","Toyota Land Cruiser V8","Luxury","Rs.28,000/day","Rs.35,000 outside","General 10 hours","Events 5 hours","165,000-195,000","500,000-585,000",5,carSvg("#101010","#2f2f2f")],
+        ["hiace","Toyota HiAce","Van","Rs.10,000/day","Rs.12,000 outside","General 10 hours","Events 5 hours","60,000-72,000","180,000-216,000",5,carSvg("#f8f8f8","#d7dde4")],
+        ["coaster","Toyota Coaster","Van","Rs.12,000/day","Rs.18,000 outside","General 10 hours","Events 5 hours","72,000-90,000","216,000-270,000",5,carSvg("#ffffff","#d0d8e0")]
+      ].map(v => ({id:v[0], name:v[1], category:v[2], image:v[10], priceLahore:v[3], priceOutside:v[4], hoursGeneral:v[5], hoursEvents:v[6], weeklyPrice:v[7], monthlyPrice:v[8], rating:v[9], description:"Comfortable rental vehicle with professional driver service.", features:"AC, Professional driver, Clean interior", active:true})),
+      pricing: [
+        ["Sedan","Islamabad","Rs. 17,000"],["7 Seater","Islamabad","Rs. 22,000"],["Sedan","Multan","Rs. 17,000"],["7 Seater","Multan","Rs. 22,000"],["Sedan","Sialkot","Rs. 12,000"],["7 Seater","Sialkot","Rs. 16,000"],["Sedan","Faisalabad","Rs. 12,000"],["7 Seater","Faisalabad","Rs. 12,000"],["Sedan","Gujranwala","Rs. 10,000"],["7 Seater","Gujranwala","Rs. 14,000"]
+      ].map((r,i)=>({id:"rate"+i, carType:r[0], city:r[1], price:r[2], timingNote:"24 hours, within the same date", active:true})),
+      reviews: [
+        {id:"rev1", text:"Excellent service! The car was clean and driver was very professional. Will definitely book again.", name:"Ahmed R.", city:"Islamabad", rating:5, avatar:"AR", active:true},
+        {id:"rev2", text:"Booked a Fortuner for our family trip to Murree. Everything was perfect, very punctual.", name:"Sara M.", city:"Lahore", rating:5, avatar:"SM", active:true},
+        {id:"rev3", text:"Great prices and reliable service. Used Mian Rent A Car for my wedding and they didn't disappoint.", name:"Usman K.", city:"Lahore", rating:5, avatar:"UK", active:true},
+        {id:"rev4", text:"Responsive team, clean vehicle, very easy booking process over WhatsApp. Highly recommend!", name:"Bilal T.", city:"Faisalabad", rating:4, avatar:"BT", active:true}
+      ]
+    };
+    let data = loadData();
+    let activeFilter = "All";
+    let bookingVehicle = null;
+
+    function clone(obj){ return JSON.parse(JSON.stringify(obj)); }
+    function mergeData(base, saved){
+      if (!saved || typeof saved !== "object") return clone(base);
+      const out = Array.isArray(base) ? clone(saved) : {...base};
+      Object.keys(saved).forEach(key => {
+        if (Array.isArray(saved[key])) out[key] = saved[key];
+        else if (saved[key] && typeof saved[key] === "object" && base[key] && typeof base[key] === "object" && !Array.isArray(base[key])) out[key] = mergeData(base[key], saved[key]);
+        else out[key] = saved[key];
+      });
+      return out;
+    }
+    function normalizeData(d){
+      d.hero = {...defaultData.hero, ...(d.hero || {})};
+      d.logo = {...defaultData.logo, ...(d.logo || {})};
+      d.contact = {...defaultData.contact, ...(d.contact || {})};
+      d.about = {...defaultData.about, ...(d.about || {})};
+      d.vehicles = (d.vehicles || []).map(v => ({description:"Comfortable rental vehicle with professional driver service.", features:"AC, Professional driver, Clean interior", active:true, ...v}));
+      d.pricing = (d.pricing || []).map(r => ({timingNote:"24 hours, within the same date", active:true, ...r}));
+      d.reviews = (d.reviews || []).map(r => ({avatar:initials(r.name || ""), active:true, ...r}));
+      return d;
+    }
+    function loadData(){
+      try { return normalizeData(mergeData(defaultData, JSON.parse(localStorage.getItem(STORAGE_KEY)) || {})); }
+      catch { return normalizeData(clone(defaultData)); }
+    }
+    function saveData(){ localStorage.setItem(STORAGE_KEY, JSON.stringify(data)); renderAll(); toast("Saved successfully"); }
+    function telHref(phone){ return `tel:${phone.replace(/[^\d+]/g,"")}`; }
+    function waNumber(phone = data.contact.whatsapp){
+      let n = String(phone).replace(/\D/g,"");
+      if (n.startsWith("0")) n = "92" + n.slice(1);
+      if (!n.startsWith("92") && n.length === 10) n = "92" + n;
+      return n;
+    }
+    function waLink(message="", phone=data.contact.whatsapp){ return `https://wa.me/${waNumber(phone)}${message ? `?text=${encodeURIComponent(message)}` : ""}`; }
+    function parseAmount(text){ const m = String(text).replace(/,/g,"").match(/\d+/); return m ? Number(m[0]) : 0; }
+    function stars(r){ return "★★★★★".slice(0, r) + "☆☆☆☆☆".slice(0, 5-r); }
+    function initials(name){ return name.split(/\s+/).map(x=>x[0]).join("").replace(/[^A-Z]/gi,"").slice(0,2).toUpperCase() || "MR"; }
+    function today(){ return new Date().toISOString().split("T")[0]; }
+
+    function renderAll(){
+      renderLogo(); renderHero(); renderVehicles(); renderPricing(); renderAbout(); renderReviews(); renderContact(); renderAdmin();
+      document.getElementById("headerWa").href = waLink("Hello Mian Rent A Car, I want to ask about car rental.");
+      document.getElementById("mobileWa").href = document.getElementById("headerWa").href;
+    }
+    function renderLogo(){
+      const logo = data.logo || defaultData.logo;
+      document.querySelectorAll("[data-logo-text]").forEach(el => el.textContent = logo.text || "Mian Rent A Car");
+      document.querySelectorAll("[data-logo-mark]").forEach(el => {
+        el.innerHTML = logo.image ? `<img src="${logo.image}" alt="${logo.text || "Mian Rent A Car"}" onerror="this.style.display='none';">` : `<svg class="icon" viewBox="0 0 24 24" fill="none"><path d="M5 16h14M6.8 16l1.2-5.2A3 3 0 0 1 10.9 8h2.2A3 3 0 0 1 16 10.8l1.2 5.2M7 16v2M17 16v2M8 18h.1M16 18h.1" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>`;
+      });
+      document.getElementById("footerBrandName").textContent = logo.text || "Mian Rent A Car";
+      document.getElementById("footerBrandInfo").textContent = `${logo.brandName || "CarMian"} provides premium car rental services with reliable vehicles, expert drivers, and flexible packages across Lahore and Pakistan.`;
+      const adminTitle = document.getElementById("adminBrandTitle");
+      if (adminTitle) adminTitle.textContent = `${logo.brandName || "CarMian"} Admin`;
+    }
+    function renderHero(){
+      document.getElementById("heroHeading").textContent = data.hero.heading;
+      document.getElementById("heroSubheading").textContent = data.hero.subheading;
+      document.getElementById("heroBookBtn").textContent = data.hero.buttonText || "Book Now";
+      document.getElementById("heroBookBtn").href = data.hero.buttonLink || "#vehicles";
+      const bg = data.hero.backgroundImage ? `url("${data.hero.backgroundImage}")` : `radial-gradient(circle at 72% 42%, rgba(245,192,0,.24), transparent 20%), radial-gradient(circle at 84% 72%, rgba(37,211,102,.18), transparent 18%)`;
+      document.querySelector(".hero").style.setProperty("--hero-bg", bg);
+    }
+    function renderVehicles(){
+      const categoryOrder = ["Sedan", "SUV", "Van", "Luxury"];
+      const cats = ["All", ...categoryOrder.filter(c => data.vehicles.some(v => v.category === c)), ...Array.from(new Set(data.vehicles.map(v=>v.category))).filter(c => !categoryOrder.includes(c))];
+      document.getElementById("filterBar").innerHTML = cats.map(c=>`<button class="filter-tab ${c===activeFilter?"active":""}" data-filter="${c}">${c}</button>`).join("");
+      const vehicles = data.vehicles.filter(v=>v.active && (activeFilter === "All" || v.category === activeFilter));
+      document.getElementById("vehicleGrid").innerHTML = vehicles.map(v=>`
+        <article class="vehicle-card">
+          <div class="vehicle-image"><img src="${v.image || ""}" alt="${v.name}" onerror="this.style.display='none';this.nextElementSibling.style.display='grid';"><div class="image-fallback">🚘</div></div>
+          <div class="vehicle-body">
+            <div class="vehicle-head"><h3 class="vehicle-name">${v.name}</h3><span class="pill">${v.category}</span></div>
+            <div class="prices">
+              <div class="price-box"><span class="price-label">Lahore</span><span class="price-value">${v.priceLahore}</span></div>
+              <div class="price-box"><span class="price-label">Outside</span><span class="price-value">${v.priceOutside}</span></div>
+              <div class="price-box"><span class="price-label">Weekly</span><span class="price-value">${v.weeklyPrice}</span></div>
+              <div class="price-box"><span class="price-label">Monthly</span><span class="price-value">${v.monthlyPrice}</span></div>
+            </div>
+            <div class="rating" aria-label="${v.rating} stars">${stars(Number(v.rating))}</div>
+            <button class="book-btn" data-book="${v.id}">Book Now</button>
+          </div>
+        </article>`).join("");
+      document.getElementById("cVehicle").innerHTML = data.vehicles.filter(v=>v.active).map(v=>`<option>${v.name}</option>`).join("");
+    }
+    function renderPricing(){
+      document.getElementById("pricingRows").innerHTML = data.pricing.filter(r=>r.active !== false).map(r=>`<tr><td>${r.carType}</td><td>${r.city}</td><td><strong>${r.price}</strong></td></tr>`).join("");
+    }
+    function renderAbout(){
+      const a = data.about || defaultData.about;
+      document.getElementById("aboutTitle").textContent = a.title;
+      document.getElementById("aboutDescription").textContent = a.description;
+      document.getElementById("aboutStatements").innerHTML = `<p class="section-sub"><strong>Mission:</strong> ${a.mission}<br><strong>Vision:</strong> ${a.vision}</p>`;
+      document.getElementById("whyGrid").innerHTML = (a.cards || defaultData.about.cards).map(card => `<article class="why-card"><div class="big">${card.icon || "✓"}</div><h3>${card.title}</h3><p>${card.description}</p></article>`).join("");
+      const counters = document.querySelectorAll("#counterRow [data-count]");
+      if (counters[0]) counters[0].dataset.count = Number(a.happyCustomers) || 500;
+      if (counters[1]) counters[1].dataset.count = Number(a.availableVehicles) || 15;
+      if (counters[2]) counters[2].dataset.count = Number(a.experienceYears) || 5;
+      if (counters[3]) counters[3].dataset.count = parseInt(a.supportText, 10) || 24;
+      const labels = document.querySelectorAll("#counterRow span");
+      if (labels[3]) labels[3].textContent = a.supportText || "24/7 Support";
+    }
+    function renderReviews(){
+      document.getElementById("reviewsRow").innerHTML = data.reviews.filter(r=>r.active).map(r=>`
+        <article class="review-card"><div class="rating">${stars(Number(r.rating))}</div><p>"${r.text}"</p><div class="review-author"><div class="avatar">${r.avatar || initials(r.name)}</div><div><strong>${r.name}</strong><span>${r.city}</span></div></div></article>
+      `).join("");
+    }
+    function renderContact(){
+      const c = data.contact;
+      const phones = [c.phone1, c.phone2, c.phone3].filter(Boolean);
+      document.getElementById("contactInfo").innerHTML = `
+        <div class="contact-line"><span>📍</span><div><b>Address</b><br>${c.address}</div></div>
+        ${phones.map(p=>`<a class="contact-line" href="${telHref(p)}"><span>📞</span><div><b>${p}</b><br>Tap to call</div></a>`).join("")}
+        <a class="contact-line" href="mailto:${c.email}"><span>✉️</span><div><b>${c.email}</b><br>Email us anytime</div></a>
+        <a class="contact-line" href="https://${String(c.website || "www.carmian.com").replace(/^https?:\/\//,"")}" target="_blank" rel="noopener"><span>🌐</span><div><b>${c.website || "www.carmian.com"}</b><br>Visit website</div></a>`;
+      const socials = [["f",c.facebook,"Facebook"],["◎",c.instagram,"Instagram"],["♪",c.tiktok,"TikTok"],["💬",waLink(),"WhatsApp"]];
+      const socialHtml = socials.map(s=>`<a href="${s[1] || "#"}" target="_blank" rel="noopener" aria-label="${s[2]}">${s[0]}</a>`).join("");
+      document.getElementById("socialLinks").innerHTML = socialHtml;
+      document.getElementById("footerSocial").innerHTML = socialHtml;
+      document.getElementById("footerContact").innerHTML = `<p>${c.address}</p>${phones.map(p=>`<p><a href="${telHref(p)}">${p}</a></p>`).join("")}<p><a href="mailto:${c.email}">${c.email}</a></p><p><a href="https://${String(c.website || "www.carmian.com").replace(/^https?:\/\//,"")}" target="_blank" rel="noopener">${c.website || "www.carmian.com"}</a></p>`;
+      document.getElementById("waRows").innerHTML = phones.map(p=>`<div class="phone-row"><div class="phone-main"><span>${p===c.phone1?"💬":"📞"}</span><span>${p}</span></div><div class="phone-actions"><a class="mini-btn mini-call" href="${telHref(p)}">📞 Call</a><a class="mini-btn mini-wa" target="_blank" rel="noopener" href="${waLink("Hello Mian Rent A Car, I need help with car rental.", p)}">💬 WhatsApp</a></div></div>`).join("");
+      document.getElementById("mapFrame").src = c.mapEmbed || defaultData.contact.mapEmbed;
+    }
+
+    function openWaPopup(){
+      document.getElementById("waBackdrop").classList.add("open");
+      document.getElementById("waPopup").classList.add("open");
+      document.body.classList.add("modal-open");
+    }
+    function closeWaPopup(){
+      document.getElementById("waBackdrop").classList.remove("open");
+      document.getElementById("waPopup").classList.remove("open");
+      document.body.classList.remove("modal-open");
+    }
+    function openBooking(id){
+      bookingVehicle = data.vehicles.find(v=>v.id===id);
+      if (!bookingVehicle) return;
+      document.getElementById("bVehicle").value = bookingVehicle.name;
+      document.getElementById("bPickup").min = today();
+      document.getElementById("bReturn").min = today();
+      document.getElementById("bookingForm").reset();
+      document.getElementById("bVehicle").value = bookingVehicle.name;
+      document.getElementById("modalBackdrop").classList.add("open");
+      document.getElementById("bookingModal").classList.add("open");
+      document.body.classList.add("modal-open");
+      updateEstimate();
+    }
+    function closeBooking(){
+      document.getElementById("modalBackdrop").classList.remove("open");
+      document.getElementById("bookingModal").classList.remove("open");
+      document.body.classList.remove("modal-open");
+    }
+    function bookingDays(){
+      const p = new Date(document.getElementById("bPickup").value);
+      const r = new Date(document.getElementById("bReturn").value);
+      if (isNaN(p) || isNaN(r)) return 0;
+      return Math.max(1, Math.ceil((r - p) / 86400000) + 1);
+    }
+    function updateEstimate(){
+      const days = bookingDays();
+      const rate = bookingVehicle ? parseAmount(bookingVehicle.priceLahore) : 0;
+      document.getElementById("bookingEstimate").textContent = `Total Estimate: ${days || 0} day${days===1?"":"s"} × Rs. ${currency.format(rate)} = Rs. ${currency.format(days * rate)}`;
+    }
+
+    function toast(msg){
+      const t = document.getElementById("toast");
+      t.textContent = msg; t.classList.add("show");
+      setTimeout(()=>t.classList.remove("show"), 1800);
+    }
+    function renderAdmin(){
+      renderAdminDashboard(); renderAdminVehicles(); renderAdminPricing(); renderAdminReviews(); renderAdminContact(); renderAdminHero(); renderAdminLogo(); renderAdminAbout();
+    }
+    function renderAdminDashboard(){
+      const stats = document.getElementById("adminStats");
+      if (!stats) return;
+      stats.innerHTML = `
+        <div class="counter-box"><strong>${data.vehicles.length}</strong><span>Total Vehicles</span></div>
+        <div class="counter-box"><strong>${data.vehicles.filter(v=>v.active).length}</strong><span>Active Vehicles</span></div>
+        <div class="counter-box"><strong>${data.pricing.filter(r=>r.active !== false).length}</strong><span>Active Rates</span></div>
+        <div class="counter-box"><strong>${data.reviews.filter(r=>r.active).length}</strong><span>Live Reviews</span></div>`;
+    }
+    function renderAdminVehicles(){
+      document.getElementById("adminVehicleRows").innerHTML = data.vehicles.map(v=>`<tr><td>${v.name}</td><td>${v.category}</td><td>${v.priceLahore}</td><td>${v.priceOutside}</td><td>${v.active ? "Active" : "Inactive"}</td><td><button class="small-btn gold" data-edit-vehicle="${v.id}">Edit</button><button class="small-btn green" data-toggle-vehicle="${v.id}">${v.active?"Deactivate":"Activate"}</button><button class="small-btn danger" data-delete-vehicle="${v.id}">Delete</button></td></tr>`).join("");
+    }
+    function vehicleForm(v={}){
+      document.getElementById("vehicleFormMount").innerHTML = `<form id="vehicleEditForm" class="admin-form-grid admin-card">
+        <input type="hidden" id="vId" value="${v.id || ""}">
+        ${field("vName","Name",v.name||"")}${field("vCategory","Category",v.category||"Sedan")}
+        ${field("vLahore","Daily Rate Lahore",v.priceLahore||"")}${field("vOutside","Daily Rate Outside",v.priceOutside||"")}
+        ${field("vWeekly","Weekly Price",v.weeklyPrice||"")}${field("vMonthly","Monthly Price",v.monthlyPrice||"")}
+        ${field("vImage","Image URL",v.image||"","full")}${field("vRating","Rating (1-5)",v.rating||5)}
+        ${field("vDescription","Vehicle Description",v.description||"","full",true)}${field("vFeatures","Vehicle Features",v.features||"","full",true)}
+        <label class="field"><span style="font-weight:800">Active</span><select id="vActive"><option value="true" ${v.active!==false?"selected":""}>Active</option><option value="false" ${v.active===false?"selected":""}>Inactive</option></select></label>
+        <div class="full"><button class="small-btn green" type="submit">Save Vehicle</button><button class="small-btn" type="button" id="cancelVehicleForm">Cancel</button></div>
+      </form>`;
+    }
+    function renderAdminPricing(){
+      document.getElementById("adminPricingRows").innerHTML = data.pricing.map(r=>`<tr data-rate-id="${r.id}"><td contenteditable="true" data-rate-field="carType">${r.carType}</td><td contenteditable="true" data-rate-field="city">${r.city}</td><td contenteditable="true" data-rate-field="price">${r.price}</td><td>${r.active !== false ? "Active" : "Inactive"}</td><td><button class="small-btn green" data-save-rate="${r.id}">Save</button><button class="small-btn" data-toggle-rate="${r.id}">${r.active !== false ? "Deactivate" : "Activate"}</button><button class="small-btn danger" data-delete-rate="${r.id}">Delete</button></td></tr><tr data-rate-id="${r.id}"><td colspan="5" contenteditable="true" data-rate-field="timingNote">Timing: ${r.timingNote || ""}</td></tr>`).join("");
+    }
+    function renderAdminReviews(){
+      document.getElementById("adminReviewRows").innerHTML = data.reviews.map(r=>`<tr><td>${r.name}</td><td>${r.city}</td><td>${r.rating}</td><td>${r.active ? "Shown" : "Hidden"}</td><td><button class="small-btn gold" data-edit-review="${r.id}">Edit</button><button class="small-btn green" data-toggle-review="${r.id}">${r.active?"Hide":"Show"}</button><button class="small-btn danger" data-delete-review="${r.id}">Delete</button></td></tr>`).join("");
+    }
+    function reviewForm(r={}){
+      document.getElementById("reviewFormMount").innerHTML = `<form id="reviewEditForm" class="admin-form-grid admin-card"><input type="hidden" id="rId" value="${r.id || ""}">${field("rText","Review Text",r.text||"","full",true)}${field("rName","Customer Name",r.name||"")}${field("rCity","City",r.city||"")}${field("rRating","Rating (1-5)",r.rating||5)}${field("rAvatar","Customer Initials / Avatar Text",r.avatar||initials(r.name||""))}<label class="field"><span style="font-weight:800">Status</span><select id="rActive"><option value="true" ${r.active!==false?"selected":""}>Shown</option><option value="false" ${r.active===false?"selected":""}>Hidden</option></select></label><div class="full"><button class="small-btn green" type="submit">Save Review</button><button class="small-btn" type="button" id="cancelReviewForm">Cancel</button></div></form>`;
+    }
+    function field(id,label,value,cls="",area=false){ return `<div class="field ${cls}"><label for="${id}">${label}</label>${area ? `<textarea id="${id}" required>${value}</textarea>` : `<input id="${id}" value="${value}" required>`}</div>`; }
+    function renderAdminContact(){
+      const c = data.contact;
+      document.getElementById("adminContactForm").innerHTML = `${field("aPhone1","Phone 1",c.phone1)}${field("aPhone2","Phone 2",c.phone2)}${field("aPhone3","Phone 3",c.phone3)}${field("aWhatsapp","WhatsApp Number",c.whatsapp)}${field("aEmail","Email",c.email)}${field("aWebsite","Website",c.website || "www.carmian.com")}${field("aAddress","Address",c.address,"full")}${field("aFacebook","Facebook URL",c.facebook)}${field("aInstagram","Instagram URL",c.instagram)}${field("aTiktok","TikTok URL",c.tiktok)}${field("aMapEmbed","Google Maps Embed Link",c.mapEmbed || defaultData.contact.mapEmbed,"full")}<div class="full"><button class="small-btn green" type="submit">Save Changes</button></div>`;
+    }
+    function renderAdminHero(){
+      document.getElementById("adminHeroForm").innerHTML = `${field("aHeroHeading","Hero Heading",data.hero.heading,"full")}${field("aHeroSubheading","Hero Subheading",data.hero.subheading,"full",true)}${field("aHeroBg","Hero Background Image URL",data.hero.backgroundImage,"full")}${field("aHeroButtonText","Hero Button Text",data.hero.buttonText || "Book Now")}${field("aHeroButtonLink","Hero Button Link / Action",data.hero.buttonLink || "#vehicles")}<div class="full"><button class="small-btn gold" type="button">Edit Hero</button><button class="small-btn green" type="submit">Save</button><button class="small-btn" type="button" data-admin-cancel="heroAdmin">Cancel</button></div>`;
+    }
+    function renderAdminLogo(){
+      const l = data.logo || defaultData.logo;
+      document.getElementById("adminLogoForm").innerHTML = `${field("aLogoImage","Website Logo Image URL",l.image || "","full")}${field("aLogoText","Logo Text",l.text || "Mian Rent A Car")}${field("aBrandName","Brand Name",l.brandName || "CarMian")}<div class="full"><button class="small-btn green" type="submit">Save Logo</button><button class="small-btn" type="button" id="resetLogo">Reset Logo</button></div>`;
+    }
+    function renderAdminAbout(){
+      const a = data.about || defaultData.about;
+      const cards = a.cards || defaultData.about.cards;
+      document.getElementById("adminAboutForm").innerHTML = `${field("aAboutTitle","About Title",a.title,"full")}${field("aAboutDescription","About Description",a.description,"full",true)}${field("aMission","Mission Statement",a.mission,"full",true)}${field("aVision","Vision Statement",a.vision,"full",true)}${field("aCard1Title","Why Choose Us Card 1 Title",cards[0]?.title || "")}${field("aCard1Desc","Card 1 Description",cards[0]?.description || "","full",true)}${field("aCard2Title","Why Choose Us Card 2 Title",cards[1]?.title || "")}${field("aCard2Desc","Card 2 Description",cards[1]?.description || "","full",true)}${field("aCard3Title","Why Choose Us Card 3 Title",cards[2]?.title || "")}${field("aCard3Desc","Card 3 Description",cards[2]?.description || "","full",true)}${field("aExperience","Experience Years",a.experienceYears)}${field("aHappy","Happy Customers Count",a.happyCustomers)}${field("aAvailable","Available Vehicles Count",a.availableVehicles)}${field("aSupport","Support Text",a.supportText)}<div class="full"><button class="small-btn green" type="submit">Save About Content</button><button class="small-btn" type="button" id="resetAbout">Reset About</button></div>`;
+    }
+    function openAdmin(){
+      document.getElementById("adminOverlay").classList.add("open");
+      document.body.classList.add("modal-open");
+      const loggedIn = sessionStorage.getItem("carmian_admin_ok") === "1";
+      document.getElementById("adminLogin").classList.toggle("show", !loggedIn);
+      document.getElementById("adminShell").classList.toggle("locked", !loggedIn);
+      if (loggedIn) {
+        document.querySelectorAll(".admin-tab,.admin-section").forEach(x=>x.classList.remove("active"));
+        document.querySelector('[data-admin-tab="dashboardAdmin"]').classList.add("active");
+        document.getElementById("dashboardAdmin").classList.add("active");
+        renderAdmin();
+      }
+    }
+    function closeAdmin(){ document.getElementById("adminOverlay").classList.remove("open"); document.body.classList.remove("modal-open"); if (location.hash === "#admin1234") history.replaceState(null,"",location.pathname + location.search); }
+
+    document.addEventListener("click", e => {
+      const filter = e.target.closest("[data-filter]");
+      if (filter) { activeFilter = filter.dataset.filter; renderVehicles(); }
+      const book = e.target.closest("[data-book]");
+      if (book) openBooking(book.dataset.book);
+      if (e.target.closest("#floatWa") || e.target.closest("#heroCallBtn")) openWaPopup();
+      if (e.target.closest("#waClose") || e.target.id === "waBackdrop") closeWaPopup();
+      if (e.target.closest("#bookingClose") || e.target.closest("#bookingCancel") || e.target.id === "modalBackdrop") closeBooking();
+      if (e.target.closest("#backTop")) scrollTo({top:0, behavior:"smooth"});
+      if (e.target.closest("#menuToggle")) { document.getElementById("mobileMenu").classList.add("open"); document.body.classList.add("menu-open"); }
+      if (e.target.closest("#mobileClose") || e.target.closest(".mobile-menu a")) { document.getElementById("mobileMenu").classList.remove("open"); document.body.classList.remove("menu-open"); }
+      if (e.target.closest("#adminClose")) closeAdmin();
+      if (e.target.closest("#adminLoginClose")) closeAdmin();
+      if (e.target.closest("#adminLogout")) { sessionStorage.removeItem("carmian_admin_ok"); closeAdmin(); toast("Logged out"); }
+      const tab = e.target.closest("[data-admin-tab]");
+      if (tab) { document.querySelectorAll(".admin-tab,.admin-section").forEach(x=>x.classList.remove("active")); tab.classList.add("active"); document.getElementById(tab.dataset.adminTab).classList.add("active"); }
+      if (e.target.closest("#addVehicle")) vehicleForm();
+      const ev = e.target.closest("[data-edit-vehicle]");
+      if (ev) vehicleForm(data.vehicles.find(v=>v.id===ev.dataset.editVehicle));
+      const tv = e.target.closest("[data-toggle-vehicle]");
+      if (tv) { const v=data.vehicles.find(x=>x.id===tv.dataset.toggleVehicle); v.active=!v.active; saveData(); }
+      const dv = e.target.closest("[data-delete-vehicle]");
+      if (dv && confirm("Delete this vehicle?")) { data.vehicles=data.vehicles.filter(v=>v.id!==dv.dataset.deleteVehicle); saveData(); }
+      if (e.target.closest("#cancelVehicleForm")) document.getElementById("vehicleFormMount").innerHTML="";
+      if (e.target.closest("#addRate")) { data.pricing.push({id:"rate"+Date.now(), carType:"Sedan", city:"City", price:"Rs. 0", timingNote:"24 hours, within the same date", active:true}); saveData(); }
+      const sr = e.target.closest("[data-save-rate]");
+      if (sr) { const rows=[...document.querySelectorAll(`[data-rate-id="${sr.dataset.saveRate}"]`)], r=data.pricing.find(x=>x.id===sr.dataset.saveRate); rows.forEach(row=>row.querySelectorAll("[data-rate-field]").forEach(td=>r[td.dataset.rateField]=td.textContent.replace(/^Timing:\s*/,"").trim())); saveData(); }
+      const tor = e.target.closest("[data-toggle-rate]");
+      if (tor) { const r=data.pricing.find(x=>x.id===tor.dataset.toggleRate); r.active = r.active === false; saveData(); }
+      const dr = e.target.closest("[data-delete-rate]");
+      if (dr && confirm("Delete this row?")) { data.pricing=data.pricing.filter(r=>r.id!==dr.dataset.deleteRate); saveData(); }
+      if (e.target.closest("#addReview")) reviewForm();
+      const er = e.target.closest("[data-edit-review]");
+      if (er) reviewForm(data.reviews.find(r=>r.id===er.dataset.editReview));
+      const tr = e.target.closest("[data-toggle-review]");
+      if (tr) { const r=data.reviews.find(x=>x.id===tr.dataset.toggleReview); r.active=!r.active; saveData(); }
+      const delr = e.target.closest("[data-delete-review]");
+      if (delr && confirm("Delete this review?")) { data.reviews=data.reviews.filter(r=>r.id!==delr.dataset.deleteReview); saveData(); }
+      if (e.target.closest("#cancelReviewForm")) document.getElementById("reviewFormMount").innerHTML="";
+      if (e.target.closest("#resetData") && confirm("Reset all website data to defaults?")) { data=clone(defaultData); localStorage.removeItem(STORAGE_KEY); renderAll(); toast("Defaults restored"); }
+      if (e.target.closest("#resetLogo")) { data.logo = clone(defaultData.logo); saveData(); }
+      if (e.target.closest("#resetAbout") && confirm("Reset about section to defaults?")) { data.about = clone(defaultData.about); saveData(); }
+      if (e.target.closest("[data-admin-cancel]")) renderAdmin();
+    });
+
+    document.addEventListener("submit", e => {
+      if (e.target.id === "adminLoginForm") {
+        e.preventDefault();
+        if (adminUser.value === ADMIN_USER && adminPass.value === ADMIN_PASS) {
+          sessionStorage.setItem("carmian_admin_ok","1");
+          adminUser.value = ""; adminPass.value = "";
+          openAdmin();
+          toast("Login successful");
+        } else {
+          toast("Invalid username or password");
+        }
+      }
+      if (e.target.id === "bookingForm") {
+        e.preventDefault();
+        const total = bookingDays() * parseAmount(bookingVehicle.priceLahore);
+        const msg = `Hello! I want to book ${bookingVehicle.name} from ${bPickup.value} to ${bReturn.value}.\nName: ${bName.value}\nPhone: ${bPhone.value}\nLocation: ${bLocation.value}\nTotal Estimate: Rs. ${currency.format(total)}\nPlease confirm.`;
+        window.open(waLink(msg), "_blank"); closeBooking();
+      }
+      if (e.target.id === "contactForm") {
+        e.preventDefault();
+        const msg = `Hello! I want information about ${cVehicle.value}. Name: ${cName.value}, Phone: ${cPhone.value}, Date: ${cDate.value}. Message: ${cMessage.value}`;
+        window.open(waLink(msg), "_blank");
+      }
+      if (e.target.id === "vehicleEditForm") {
+        e.preventDefault();
+        const id = vId.value || "vehicle" + Date.now();
+        const obj = {id, name:vName.value, category:vCategory.value, image:vImage.value, priceLahore:vLahore.value, priceOutside:vOutside.value, hoursGeneral:"General 10 hours", hoursEvents:"Events 5 hours", weeklyPrice:vWeekly.value, monthlyPrice:vMonthly.value, rating:Math.max(1,Math.min(5,Number(vRating.value)||5)), description:vDescription.value, features:vFeatures.value, active:vActive.value==="true"};
+        const i = data.vehicles.findIndex(v=>v.id===id);
+        if (i >= 0) data.vehicles[i] = obj; else data.vehicles.push(obj);
+        document.getElementById("vehicleFormMount").innerHTML=""; saveData();
+      }
+      if (e.target.id === "reviewEditForm") {
+        e.preventDefault();
+        const id = rId.value || "review" + Date.now();
+        const obj = {id, text:rText.value, name:rName.value, city:rCity.value, rating:Math.max(1,Math.min(5,Number(rRating.value)||5)), avatar:rAvatar.value, active:rActive.value==="true"};
+        const i = data.reviews.findIndex(r=>r.id===id);
+        if (i >= 0) data.reviews[i] = obj; else data.reviews.push(obj);
+        document.getElementById("reviewFormMount").innerHTML=""; saveData();
+      }
+      if (e.target.id === "adminContactForm") {
+        e.preventDefault();
+        data.contact = {...data.contact, phone1:aPhone1.value, phone2:aPhone2.value, phone3:aPhone3.value, whatsapp:aWhatsapp.value, email:aEmail.value, website:aWebsite.value, address:aAddress.value, facebook:aFacebook.value, instagram:aInstagram.value, tiktok:aTiktok.value, mapEmbed:aMapEmbed.value};
+        saveData();
+      }
+      if (e.target.id === "adminHeroForm") {
+        e.preventDefault();
+        data.hero = {heading:aHeroHeading.value, subheading:aHeroSubheading.value, backgroundImage:aHeroBg.value, buttonText:aHeroButtonText.value, buttonLink:aHeroButtonLink.value};
+        saveData();
+      }
+      if (e.target.id === "adminLogoForm") {
+        e.preventDefault();
+        data.logo = {image:aLogoImage.value, text:aLogoText.value, brandName:aBrandName.value};
+        saveData();
+      }
+      if (e.target.id === "adminAboutForm") {
+        e.preventDefault();
+        data.about = {
+          title:aAboutTitle.value, description:aAboutDescription.value, mission:aMission.value, vision:aVision.value,
+          cards:[
+            {icon:"🕐", title:aCard1Title.value, description:aCard1Desc.value},
+            {icon:"🚗", title:aCard2Title.value, description:aCard2Desc.value},
+            {icon:"💰", title:aCard3Title.value, description:aCard3Desc.value}
+          ],
+          experienceYears:Number(aExperience.value)||5,
+          happyCustomers:Number(aHappy.value)||500,
+          availableVehicles:Number(aAvailable.value)||15,
+          supportText:aSupport.value || "24/7 Support"
+        };
+        saveData();
+      }
+    });
+
+    document.addEventListener("keydown", e => {
+      if (e.key === "Enter" && e.target.matches("[data-rate-field]")) {
+        e.preventDefault();
+        const row = e.target.closest("tr");
+        const r = data.pricing.find(x => x.id === row.dataset.rateId);
+        row.querySelectorAll("[data-rate-field]").forEach(td => r[td.dataset.rateField] = td.textContent.trim());
+        e.target.blur();
+        saveData();
+      }
+    });
+
+    ["bPickup","bReturn"].forEach(id=>document.addEventListener("input", e=>{ if (e.target.id===id) updateEstimate(); }));
+    window.addEventListener("scroll", () => {
+      document.getElementById("siteHeader").classList.toggle("scrolled", scrollY > 20);
+      document.getElementById("backTop").classList.toggle("show", scrollY > 700);
+      const fromTop = scrollY + 120;
+      document.querySelectorAll("main section[id]").forEach(sec => {
+        if (sec.offsetTop <= fromTop && sec.offsetTop + sec.offsetHeight > fromTop) {
+          document.querySelectorAll(".nav-link").forEach(a=>a.classList.toggle("active", a.getAttribute("href") === "#" + sec.id));
+        }
+      });
+    });
+    const counterObserver = new IntersectionObserver(entries => entries.forEach(entry => {
+      if (!entry.isIntersecting) return;
+      entry.target.querySelectorAll("[data-count]").forEach(el => {
+        const end = Number(el.dataset.count), plus = end !== 24 ? "+" : "/7";
+        let start = 0, step = Math.max(1, Math.ceil(end / 55));
+        const timer = setInterval(()=>{ start += step; if (start >= end) { start = end; clearInterval(timer); } el.textContent = start + plus; }, 24);
+      });
+      counterObserver.disconnect();
+    }), {threshold:.35});
+    counterObserver.observe(document.getElementById("counterRow"));
+    window.addEventListener("hashchange", () => { if (location.hash === "#admin1234") openAdmin(); });
+    document.addEventListener("keydown", e => { if (e.key === "Escape") { closeWaPopup(); closeBooking(); } });
+    renderAll();
+    if (location.hash === "#admin1234") setTimeout(openAdmin, 100);
+  </script>
+</body>
+</html>
