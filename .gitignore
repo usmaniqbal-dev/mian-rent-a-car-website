@@ -5,3 +5,5 @@ node_modules/
 .env.local
 .env.*.local
 *.log
+env.txt
+REPORT_OF_THIS_PROJECT.md
