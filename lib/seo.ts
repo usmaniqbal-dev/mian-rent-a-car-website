@@ -1,5 +1,5 @@
 import { Metadata } from "next";
-import { hasDatabaseUrl, sql } from "@/lib/db";
+import { hasDatabaseUrl, safeQuery, sql } from "@/lib/db";
 
 export const targetKeywords = [
   "Rent a car Lahore",
@@ -14,15 +14,17 @@ export const targetKeywords = [
 ];
 
 export async function getSeo(path: string): Promise<Metadata> {
+  const site = process.env.NEXT_PUBLIC_SITE_URL || "https://www.carmian.com";
+  const fallback: Metadata = {
+    title: "Mian Rent A Car | CarMian Lahore",
+    description: "Premium rent a car Lahore service with professional drivers, sedans, SUVs, vans, and luxury cars.",
+    alternates: { canonical: `${site}${path}` }
+  };
+
   if (!hasDatabaseUrl()) {
-    const site = process.env.NEXT_PUBLIC_SITE_URL || "https://www.carmian.com";
-    return {
-      title: "Mian Rent A Car | CarMian Lahore",
-      description: "Premium rent a car Lahore service with professional drivers, sedans, SUVs, vans, and luxury cars.",
-      alternates: { canonical: `${site}${path}` }
-    };
+    return fallback;
   }
-  const result = await sql<{
+  const result = await safeQuery(sql<{
     meta_title: string | null;
     meta_description: string | null;
     meta_keywords: string | null;
@@ -35,15 +37,10 @@ export async function getSeo(path: string): Promise<Metadata> {
     twitter_image_url: string | null;
     robots_index: boolean;
     robots_follow: boolean;
-  }>`select * from seo_settings where page_path = ${path} limit 1`;
+  }>`select * from seo_settings where page_path = ${path} limit 1`);
   const row = result.rows[0];
-  const site = process.env.NEXT_PUBLIC_SITE_URL || "https://www.carmian.com";
   if (!row) {
-    return {
-      title: "Mian Rent A Car | CarMian Lahore",
-      description: "Premium rent a car Lahore service with professional drivers, sedans, SUVs, vans, and luxury cars.",
-      alternates: { canonical: `${site}${path}` }
-    };
+    return fallback;
   }
   return {
     title: row.meta_title || undefined,

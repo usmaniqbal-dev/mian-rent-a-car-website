@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { hasDatabaseUrl, sql } from "@/lib/db";
+import { safeQuery, sql } from "@/lib/db";
 import { getSeo } from "@/lib/seo";
 
 export const dynamic = "force-dynamic";
@@ -9,12 +9,12 @@ export async function generateMetadata() {
 }
 
 export default async function BlogsPage() {
-  const blogs = hasDatabaseUrl() ? await sql<any>`
+  const blogs = await safeQuery(sql<any>`
       select blogs.*, blog_categories.name as category_name
       from blogs left join blog_categories on blogs.category_id = blog_categories.id
       where blogs.status = 'published' and (blogs.published_date is null or blogs.published_date <= now())
       order by blogs.published_date desc nulls last, blogs.created_at desc
-    `.catch(() => ({ rows: [] })) : { rows: [] };
+    `);
   return (
     <main>
       <section className="section-pad">

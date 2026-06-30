@@ -1,12 +1,12 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { hasDatabaseUrl, sql } from "@/lib/db";
+import { safeQuery, sql } from "@/lib/db";
 
 export const dynamic = "force-dynamic";
 
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
-  const blog = hasDatabaseUrl() ? await sql<any>`select * from blogs where slug=${slug} and status='published' limit 1`.catch(() => ({ rows: [] })) : { rows: [] };
+  const blog = await safeQuery(sql<any>`select * from blogs where slug=${slug} and status='published' limit 1`);
   const row = blog.rows[0];
   if (!row) return {};
   return {
@@ -19,10 +19,10 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
 
 export default async function BlogDetail({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
-  const blog = hasDatabaseUrl() ? await sql<any>`select blogs.*, blog_categories.name as category_name from blogs left join blog_categories on blogs.category_id=blog_categories.id where blogs.slug=${slug} and blogs.status='published' limit 1`.catch(() => ({ rows: [] })) : { rows: [] };
+  const blog = await safeQuery(sql<any>`select blogs.*, blog_categories.name as category_name from blogs left join blog_categories on blogs.category_id=blog_categories.id where blogs.slug=${slug} and blogs.status='published' limit 1`);
   const row = blog.rows[0];
   if (!row) notFound();
-  const related = hasDatabaseUrl() ? await sql<any>`select title, slug from blogs where status='published' and slug<>${slug} order by published_date desc nulls last limit 3`.catch(() => ({ rows: [] })) : { rows: [] };
+  const related = await safeQuery(sql<any>`select title, slug from blogs where status='published' and slug<>${slug} order by published_date desc nulls last limit 3`);
   return (
     <main>
       <section className="section-pad">
