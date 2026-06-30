@@ -1,14 +1,14 @@
 import { NextRequest, NextResponse } from "next/server";
 import { requireAdmin } from "@/lib/auth";
 import { bookingSchema } from "@/lib/validations";
-import { sql } from "@/lib/db";
+import { safeQuery, sql } from "@/lib/db";
 import { apiError } from "@/lib/api";
 
 export async function GET(req: NextRequest) {
   try {
     const guard = await requireAdmin(req);
     if (guard.response) return guard.response;
-    const rows = await sql`select * from bookings order by created_at desc`;
+    const rows = await safeQuery(sql`select * from bookings order by created_at desc`);
     return NextResponse.json({ bookings: rows.rows });
   } catch (error) {
     return apiError(error, "Unable to load bookings");

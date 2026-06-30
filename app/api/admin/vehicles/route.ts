@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { requireAdmin } from "@/lib/auth";
-import { sql } from "@/lib/db";
+import { safeQuery, sql } from "@/lib/db";
 import { vehicleSchema } from "@/lib/validations";
 import { apiError } from "@/lib/api";
 
@@ -8,7 +8,7 @@ export async function GET(req: NextRequest) {
   try {
     const guard = await requireAdmin(req);
     if (guard.response) return guard.response;
-    const rows = await sql`select * from vehicles order by sort_order, name`;
+    const rows = await safeQuery(sql`select * from vehicles order by sort_order, name`);
     return NextResponse.json({ vehicles: rows.rows });
   } catch (error) {
     return apiError(error, "Unable to load vehicles");

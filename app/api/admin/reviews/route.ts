@@ -1,13 +1,13 @@
 import { NextRequest, NextResponse } from "next/server";
 import { requireAdmin } from "@/lib/auth";
-import { sql } from "@/lib/db";
+import { safeQuery, sql } from "@/lib/db";
 import { apiError } from "@/lib/api";
 
 export async function GET(req: NextRequest) {
   try {
     const guard = await requireAdmin(req);
     if (guard.response) return guard.response;
-    const rows = await sql`select * from customer_reviews order by sort_order, created_at desc`;
+    const rows = await safeQuery(sql`select * from customer_reviews order by sort_order, created_at desc`);
     return NextResponse.json({ reviews: rows.rows });
   } catch (error) {
     return apiError(error, "Unable to load reviews");

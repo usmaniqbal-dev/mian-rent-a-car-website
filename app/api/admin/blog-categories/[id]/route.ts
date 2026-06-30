@@ -1,20 +1,22 @@
 import { NextRequest, NextResponse } from "next/server";
 import { requireAdmin } from "@/lib/auth";
-import { statusSchema } from "@/lib/validations";
 import { sql } from "@/lib/db";
 import { apiError } from "@/lib/api";
 
-export async function PATCH(req: NextRequest, context: { params: Promise<{ id: string }> }) {
+export async function PUT(req: NextRequest, context: { params: Promise<{ id: string }> }) {
   try {
     const guard = await requireAdmin(req);
     if (guard.response) return guard.response;
-    const body = statusSchema.safeParse(await req.json());
-    if (!body.success) return NextResponse.json({ error: "Invalid status" }, { status: 400 });
+    const body = await req.json();
     const { id } = await context.params;
-    const updated = await sql`update bookings set status = ${body.data.status} where id = ${id} returning *`;
-    return NextResponse.json({ booking: updated.rows[0] });
+    const row = await sql`
+      update blog_categories set name=${body.name}, slug=${body.slug}, description=${body.description || null},
+      active=${Boolean(body.active)}, updated_at=now()
+      where id=${id} returning *
+    `;
+    return NextResponse.json({ category: row.rows[0] });
   } catch (error) {
-    return apiError(error, "Unable to update booking");
+    return apiError(error, "Unable to update blog category");
   }
 }
 
@@ -23,9 +25,9 @@ export async function DELETE(req: NextRequest, context: { params: Promise<{ id: 
     const guard = await requireAdmin(req);
     if (guard.response) return guard.response;
     const { id } = await context.params;
-    await sql`delete from bookings where id = ${id}`;
+    await sql`delete from blog_categories where id=${id}`;
     return NextResponse.json({ ok: true });
   } catch (error) {
-    return apiError(error, "Unable to delete booking");
+    return apiError(error, "Unable to delete blog category");
   }
 }

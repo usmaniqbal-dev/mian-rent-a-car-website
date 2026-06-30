@@ -13,10 +13,16 @@ export async function uploadImage(file: File, uploadedBy?: string) {
     addRandomSuffix: true
   });
 
-  await sql`
-    insert into uploaded_files (file_url, file_name, file_type, file_size, uploaded_by)
-    values (${blob.url}, ${file.name}, ${file.type}, ${file.size}, ${uploadedBy || null})
-  `;
+  try {
+    await sql`
+      insert into uploaded_files (file_url, file_name, file_type, file_size, uploaded_by)
+      values (${blob.url}, ${file.name}, ${file.type}, ${file.size}, ${uploadedBy || null})
+    `;
+  } catch (error) {
+    if (process.env.NODE_ENV !== "production") {
+      console.warn("Uploaded file record could not be saved.", error);
+    }
+  }
 
   return blob.url;
 }

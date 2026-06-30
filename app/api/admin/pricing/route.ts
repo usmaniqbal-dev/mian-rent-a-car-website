@@ -1,13 +1,13 @@
 import { NextRequest, NextResponse } from "next/server";
 import { requireAdmin } from "@/lib/auth";
-import { sql } from "@/lib/db";
+import { safeQuery, sql } from "@/lib/db";
 import { apiError } from "@/lib/api";
 
 export async function GET(req: NextRequest) {
   try {
     const guard = await requireAdmin(req);
     if (guard.response) return guard.response;
-    const rows = await sql`select * from pricing_rates order by sort_order, destination_city`;
+    const rows = await safeQuery(sql`select * from pricing_rates order by sort_order, destination_city`);
     return NextResponse.json({ pricing: rows.rows });
   } catch (error) {
     return apiError(error, "Unable to load pricing");
