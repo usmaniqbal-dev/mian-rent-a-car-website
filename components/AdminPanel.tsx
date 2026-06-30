@@ -62,8 +62,16 @@ const emptyBlog = {
   category_id: "",
   meta_title: "",
   meta_description: "",
+  focus_keywords: "",
   published_date: "",
-  status: "draft"
+  canonical_url: "",
+  og_title: "",
+  og_description: "",
+  og_image_url: "",
+  author: "Mian Rent A Car",
+  status: "draft",
+  schema_type: "Article",
+  sort_order: 0
 };
 const emptySeo = {
   page_name: "",
@@ -71,6 +79,7 @@ const emptySeo = {
   meta_title: "",
   meta_description: "",
   meta_keywords: "",
+  focus_keywords: "",
   canonical_url: "",
   og_title: "",
   og_description: "",
@@ -80,7 +89,8 @@ const emptySeo = {
   twitter_image_url: "",
   robots_index: true,
   robots_follow: true,
-  schema_json_ld: "{}"
+  schema_json_ld: "{}",
+  extra_head_scripts: ""
 };
 
 function slugify(value: string) {
@@ -199,7 +209,7 @@ export default function AdminPanel({ initialData }: { initialData: AdminData }) 
         {active === "Blog Categories" && <CategoriesSection rows={data.categories} editing={editing} start={start} change={change} run={run} remove={remove} busy={busy} />}
         {active === "SEO Settings" && <SeoSection rows={data.seo} editing={editing} start={start} change={change} run={run} remove={remove} upload={upload} busy={busy} />}
         {active === "Bookings" && <BookingsSection rows={data.bookings} run={run} remove={remove} busy={busy} />}
-        {active === "Uploaded Files" && <UploadedFiles rows={data.files} />}
+        {active === "Uploaded Files" && <UploadedFiles rows={data.files} remove={remove} />}
       </section>
     </main>
   );
@@ -350,7 +360,15 @@ function BlogsSection(props: any) {
     <Field label="Published date" type="date" value={valueForDate(row.published_date)} onChange={(v: string) => set({ published_date: v })} />
     <Field label="SEO title" value={row.meta_title} onChange={(v: string) => set({ meta_title: v })} />
     <Field label="SEO description" value={row.meta_description} onChange={(v: string) => set({ meta_description: v })} area />
-  </>} save={(row: any) => props.run(() => jsonRequest(row.id ? `/api/admin/blogs/${row.id}` : "/api/admin/blogs", { method: row.id ? "PUT" : "POST", body: JSON.stringify({ title: row.title, slug: row.slug, shortExcerpt: row.short_excerpt, fullContent: row.full_content, featuredImageUrl: row.featured_image_url, categoryId: row.category_id || null, metaTitle: row.meta_title, metaDescription: row.meta_description, publishedDate: row.published_date || null, status: row.status }) }))} {...props} />;
+    <Field label="Focus keywords" value={row.focus_keywords} onChange={(v: string) => set({ focus_keywords: v })} />
+    <Field label="Canonical URL" value={row.canonical_url} onChange={(v: string) => set({ canonical_url: v })} />
+    <Field label="Open Graph title" value={row.og_title} onChange={(v: string) => set({ og_title: v })} />
+    <Field label="Open Graph description" value={row.og_description} onChange={(v: string) => set({ og_description: v })} area />
+    <UploadField label="Open Graph image upload / URL" value={row.og_image_url} onChange={(v: string) => set({ og_image_url: v })} upload={props.upload} />
+    <Field label="Author" value={row.author} onChange={(v: string) => set({ author: v })} />
+    <Field label="Schema type" value={row.schema_type} onChange={(v: string) => set({ schema_type: v })} />
+    <Field label="Sort order" type="number" value={row.sort_order} onChange={(v: number) => set({ sort_order: v })} />
+  </>} save={(row: any) => props.run(() => jsonRequest(row.id ? `/api/admin/blogs/${row.id}` : "/api/admin/blogs", { method: row.id ? "PUT" : "POST", body: JSON.stringify({ title: row.title, slug: row.slug, shortExcerpt: row.short_excerpt, fullContent: row.full_content, featuredImageUrl: row.featured_image_url, categoryId: row.category_id || null, metaTitle: row.meta_title, metaDescription: row.meta_description, focusKeywords: row.focus_keywords, canonicalUrl: row.canonical_url, ogTitle: row.og_title, ogDescription: row.og_description, ogImageUrl: row.og_image_url, author: row.author, schemaType: row.schema_type, sortOrder: Number(row.sort_order || 0), publishedDate: row.published_date || null, status: row.status }) }))} {...props} />;
 }
 
 function SeoSection(props: any) {
@@ -360,6 +378,7 @@ function SeoSection(props: any) {
     <Field label="Meta title" value={row.meta_title} onChange={(v: string) => set({ meta_title: v })} />
     <Field label="Meta description" value={row.meta_description} onChange={(v: string) => set({ meta_description: v })} area />
     <Field label="Keywords" value={row.meta_keywords} onChange={(v: string) => set({ meta_keywords: v })} />
+    <Field label="Focus keywords" value={row.focus_keywords} onChange={(v: string) => set({ focus_keywords: v })} />
     <Field label="Canonical URL" value={row.canonical_url} onChange={(v: string) => set({ canonical_url: v })} />
     <Field label="Open Graph title" value={row.og_title} onChange={(v: string) => set({ og_title: v })} />
     <Field label="Open Graph description" value={row.og_description} onChange={(v: string) => set({ og_description: v })} area />
@@ -370,10 +389,11 @@ function SeoSection(props: any) {
     <SelectField label="Robots index" value={row.robots_index} onChange={(v: string) => set({ robots_index: v === "true" })}><option value="true">Index</option><option value="false">No index</option></SelectField>
     <SelectField label="Robots follow" value={row.robots_follow} onChange={(v: string) => set({ robots_follow: v === "true" })}><option value="true">Follow</option><option value="false">No follow</option></SelectField>
     <Field label="Schema JSON-LD" value={typeof row.schema_json_ld === "string" ? row.schema_json_ld : JSON.stringify(row.schema_json_ld || {}, null, 2)} onChange={(v: string) => set({ schema_json_ld: v })} area />
+    <Field label="Extra head scripts" value={row.extra_head_scripts} onChange={(v: string) => set({ extra_head_scripts: v })} area />
   </>} save={(row: any) => props.run(async () => {
     let schemaJsonLd = {};
     try { schemaJsonLd = typeof row.schema_json_ld === "string" ? JSON.parse(row.schema_json_ld || "{}") : row.schema_json_ld || {}; } catch { throw new Error("Schema JSON-LD must be valid JSON"); }
-    await jsonRequest("/api/admin/seo", { method: "POST", body: JSON.stringify({ pageName: row.page_name || row.page_path, pagePath: row.page_path, metaTitle: row.meta_title, metaDescription: row.meta_description, metaKeywords: row.meta_keywords, canonicalUrl: row.canonical_url, ogTitle: row.og_title, ogDescription: row.og_description, ogImageUrl: row.og_image_url, twitterTitle: row.twitter_title, twitterDescription: row.twitter_description, twitterImageUrl: row.twitter_image_url, robotsIndex: Boolean(row.robots_index), robotsFollow: Boolean(row.robots_follow), schemaJsonLd }) });
+    await jsonRequest("/api/admin/seo", { method: "POST", body: JSON.stringify({ pageName: row.page_name || row.page_path, pagePath: row.page_path, metaTitle: row.meta_title, metaDescription: row.meta_description, metaKeywords: row.meta_keywords, focusKeywords: row.focus_keywords, canonicalUrl: row.canonical_url, ogTitle: row.og_title, ogDescription: row.og_description, ogImageUrl: row.og_image_url, twitterTitle: row.twitter_title, twitterDescription: row.twitter_description, twitterImageUrl: row.twitter_image_url, robotsIndex: Boolean(row.robots_index), robotsFollow: Boolean(row.robots_follow), schemaJsonLd, extraHeadScripts: row.extra_head_scripts }) });
   })} {...props} />;
 }
 
@@ -388,7 +408,7 @@ function CrudSection({ title, rows, empty, editKey, columns, renderForm, save, e
     </form>}
     <DataTable rows={rows} columns={columns} actions={(row: any) => <>
       <button className="small-btn gold" onClick={() => start(editKey, row)}>Edit</button>
-      {"active" in row && <button className="small-btn green" onClick={() => run(() => save({ ...row, active: !row.active }), "Updated")}>{row.active ? "Deactivate" : "Activate"}</button>}
+      {"active" in row && <button className="small-btn green" onClick={() => save({ ...row, active: !row.active })}>{row.active ? "Deactivate" : "Activate"}</button>}
       <button className="small-btn danger" onClick={() => remove(`/api/admin/${editKey === "card" ? "about-cards" : editKey === "category" ? "blog-categories" : editKey === "seo" ? "seo" : editKey === "pricing" ? "pricing" : `${editKey}s`}/${row.id}`, title.toLowerCase())}>Delete</button>
     </>} />
   </section>;
@@ -409,10 +429,11 @@ function BookingTable({ rows, actions }: any) {
   return <DataTable rows={rows} columns={["full_name", "phone", "vehicle_name", "pickup_date", "return_date", "pickup_location", "message", "total_estimate", "status", "created_at"]} actions={actions} />;
 }
 
-function UploadedFiles({ rows }: any) {
+function UploadedFiles({ rows, remove }: any) {
   return <section className="admin-card admin-panel"><DataTable rows={rows.map((f: any) => ({ ...f, preview: f.file_type?.startsWith("image/") ? "Image" : "" }))} columns={["file_name", "file_url", "file_type", "file_size", "created_at"]} actions={(row: any) => <>
     {row.file_type?.startsWith("image/") && <img className="file-thumb" src={row.file_url} alt="" />}
     <button className="small-btn gold" onClick={() => navigator.clipboard?.writeText(row.file_url)}>Copy URL</button>
     <a className="small-btn" href={row.file_url} target="_blank">Open</a>
+    <button className="small-btn danger" onClick={() => remove(`/api/admin/uploaded-files/${row.id}`, "uploaded file record")}>Delete</button>
   </>} /></section>;
 }
